@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const db = require("./config/mongoDbConnection")
+const jwtAuthMiddleware = require('./middleware/auth')
 
 dotenv.config();
 
@@ -23,9 +24,11 @@ const userRoutes = require('./routes/userRoutes');
 const generateNotesRoutes = require('./routes/generateNotesRoutes')
 const generateTestRoutes = require('./routes/generateTestRoutes');
 const publishNoteRoutes = require('./routes/publishNoteRoutes');
+const validateRoute = require('./routes/validateRoute');
 app.use('/api', userRoutes);            // ok tested backend
 app.use('/api', generateNotesRoutes);   // ok tested backend
 app.use('/api', generateTestRoutes);    // ok tested backend
+app.use('/api', validateRoute)
 app.use('/api', publishNoteRoutes);
 
 // app.get('/', jwtAuthMiddleware ,(req, res) => {

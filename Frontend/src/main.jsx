@@ -2,20 +2,12 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import App from './App.jsx'
 import './index.css'
+import { NextUIProvider } from '@nextui-org/react'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <App />
+    <NextUIProvider>
+      <App />
+    </NextUIProvider>
   </StrictMode>,
 )
-// import React from 'react';
-// import ReactDOM from 'react-dom';
-// import App from './App';
-// import './styles.css';
-
-// ReactDOM.render(
-//     <React.StrictMode>
-//         <App />
-//     </React.StrictMode>,
-//     document.getElementById('root')
-// );
