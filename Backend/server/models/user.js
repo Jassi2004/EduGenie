@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
 
 const UserSchema = new mongoose.Schema({
     username: {
@@ -15,18 +16,21 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    avatar: {
+        type: String, // URL of the avatar image
+        required: false, // Avatar is optional
+        default: 'https://images.unsplash.com/broken' // Default avatar URL
+    }
 });
-
-const bcrypt = require('bcryptjs');
 
 UserSchema.pre('save', async function (next) {
     if (!this.isModified('password')) {
-        next();
+        return next();
     }
     const salt = await bcrypt.genSalt(10);
     this.password = await bcrypt.hash(this.password, salt);
+    next();
 });
-
 
 const User = mongoose.model('User', UserSchema);
 

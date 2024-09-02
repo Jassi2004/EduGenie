@@ -1,5 +1,5 @@
 const express = require('express');
-const upload = require('../middleware/uplaodMiddleware'); // Make sure you have a middleware for file upload
+const upload = require('../middleware/uplaodMiddleware'); // Correct path
 const publishNoteFunction = require('../controllers/publishNoteController');
 const { jwtAuthMiddleware } = require('../middleware/auth');
 

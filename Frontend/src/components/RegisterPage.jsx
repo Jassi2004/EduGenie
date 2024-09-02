@@ -105,6 +105,8 @@ export default function RegisterPage() {
                         onChange={(e) => setConfirmPassword(e.target.value)}
                     />
 
+                    
+
                     {/* Error Message */}
                     {error && <p className="text-red-500 mb-4">{error}</p>}
 

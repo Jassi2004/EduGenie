@@ -5,32 +5,31 @@ import {
   CardBody,
   CardFooter,
   Divider,
-  Image,
   Input,
   Select,
   Button,
   SelectItem
 } from "@nextui-org/react";
-import axios from 'axios';
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 export default function GenerateNotesPage() {
-  
   const [topic, setTopic] = useState('');
   const [timeSetting, setTimeSetting] = useState('');
   const [complexity, setComplexity] = useState('');
   const navigate = useNavigate();
-  
+
   const timeSettingOptions = ['3 hours', '1 day', '1 week', 'Detailed plan'];
   const complexityOptions = ['Baby', 'Beginner', 'Intermediate', 'Advanced'];
-  
+
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (!token) {
       alert("You need to log in first!");
-      navigate("/login"); // Redirect to the dashboard or login page
+      navigate("/login");
     }
   }, [navigate]);
+
   const handleGenerateNotes = async () => {
     const token = localStorage.getItem('token'); // Retrieve the auth token from localStorage
 
@@ -43,83 +42,82 @@ export default function GenerateNotesPage() {
 
       console.log('Notes generated successfully:', response.data);
       navigate("/dashboard");
-      // You might want to show a success message or navigate to another page
     } catch (error) {
       console.error('Error generating notes:', error.response ? error.response.data : error.message);
-      // Handle the error, show a notification, etc.
     }
   };
 
   return (
-    <Card className="max-w-[800px] max-h-screen mx-auto my-6">
-      <CardHeader className="flex gap-3">
-        <Image
-          alt="nextui logo"
-          height={40}
-          radius="sm"
-          src="https://avatars.githubusercontent.com/u/86160567?s=200&v=4"
-          width={40}
-        />
-        <div className="flex flex-col">
-          <p className="text-md">EduGenie</p>
-          <p className="text-small text-default-500">Generate Notes </p>
-        </div>
-      </CardHeader>
-      <Divider />
-      <CardBody>
-
-        {/* Topic setting */}
-        <h4 className="text-black font-medium text-2xl my-2">Topic: </h4>
-        <div className="w-full flex flex-col gap-4 my-2">
-          <div key="bordered" className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
+    <div className="min-h-screen bg-gray-50 p-8">
+      <div className="container mx-auto max-w-md">
+        <h1 className="text-4xl font-bold text-center mb-8">Generate Study Notes</h1>
+        <Card className="max-w-[800px] mx-auto my-6">
+          <CardHeader className="flex justify-center">
+            <div className="flex flex-col text-center">
+              <p className="text-xl">EduGenie</p>
+              <p className="text-sm text-default-500">Create notes for your studies or meetings</p>
+            </div>
+          </CardHeader>
+          <Divider />
+          <CardBody className="p-6">
+            {/* Topic Setting */}
+            <h4 className="text-black font-medium text-lg my-2">Topic:</h4>
             <Input
               type="text"
               variant="bordered"
               placeholder="Enter the topic you want to study"
               value={topic}
               onChange={(e) => setTopic(e.target.value)}
+              aria-label="Topic"
+              className="mb-4"
             />
-          </div>
-        </div>
 
-        {/* Time Setting */}
-        <h4 className="text-black font-medium text-2xl my-2">Time Setting: </h4>
-        <Select
-          placeholder="Select time available"
-          className="max-w-xs"
-          value={timeSetting}
-          onChange={(e) => setTimeSetting(e)}
-          aria-label="Select time available"  // Added aria-label for accessibility
-        >
-          {timeSettingOptions.map((timeSetting, index) => (
-            <SelectItem key={index} value={timeSetting} className="text-black">
-              {timeSetting}
-            </SelectItem>
-          ))}
-        </Select>
+            {/* Time Setting */}
+            <h4 className="text-black font-medium text-lg my-2">Time Setting:</h4>
+            <Select
+              placeholder="Select time available"
+              className="max-w-xs w-full mb-4"
+              value={timeSetting}
+              onChange={(e) => setTimeSetting(e.target.value)}
+              aria-label="Select time available"
+            >
+              {timeSettingOptions.map((timeSetting, index) => (
+                <SelectItem key={index} value={timeSetting}>
+                  {timeSetting}
+                </SelectItem>
+              ))}
+            </Select>
 
-        {/* Complexity setting */}
-        <h4 className="text-black font-medium text-2xl my-2">Complexity Setting: </h4>
-        <Select
-          placeholder="Select complexity"
-          className="max-w-xs"
-          value={complexity}
-          onChange={(e) => setComplexity(e)}
-          aria-label="Select complexity"  // Added aria-label for accessibility
-        >
-          {complexityOptions.map((complexity, index) => (
-            <SelectItem key={index} value={complexity} className="text-black">
-              {complexity}
-            </SelectItem>
-          ))}
-        </Select>
-      </CardBody>
-      <Divider />
-      <CardFooter className="flex justify-center">
-        <Button onClick={handleGenerateNotes} color="primary" size="lg" variant="ghost">
-          Generate Notes
-        </Button>  
-      </CardFooter>
-    </Card>
+            {/* Complexity Setting */}
+            <h4 className="text-black font-medium text-lg my-2">Complexity Setting:</h4>
+            <Select
+              placeholder="Select complexity"
+              className="max-w-xs w-full mb-4"
+              value={complexity}
+              onChange={(e) => setComplexity(e.target.value)}
+              aria-label="Select complexity"
+            >
+              {complexityOptions.map((complexity, index) => (
+                <SelectItem key={index} value={complexity}>
+                  {complexity}
+                </SelectItem>
+              ))}
+            </Select>
+          </CardBody>
+          <Divider />
+          <CardFooter className="flex justify-center">
+            <Button
+              onClick={handleGenerateNotes}
+              color="primary"
+              size="lg"
+              variant="ghost"
+              aria-label="Generate Notes"
+            >
+              Generate Notes
+            </Button>
+          </CardFooter>
+        </Card>
+      </div>
+    </div>
   );
 }

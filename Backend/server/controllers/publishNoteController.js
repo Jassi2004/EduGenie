@@ -5,8 +5,12 @@ const publishNoteFunction = async (req, res) => {
     const pdfFile = req.file;
 
     try {
-        // Convert hashtags to an array by splitting by commas
-        const hashtagsArray = hashtags.split(',').map(tag => tag.trim());
+        if (!pdfFile) {
+            return res.status(400).json({ message: 'No file uploaded' });
+        }
+
+        // Convert hashtags to an array
+        const hashtagsArray = hashtags ? hashtags.split(',').map(tag => tag.trim()) : [];
 
         // Create a new Note document
         const newNote = new publishNote({
@@ -26,5 +30,4 @@ const publishNoteFunction = async (req, res) => {
     }
 };
 
-// Correct way to export
 module.exports = publishNoteFunction;

@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Buffer } from 'buffer';
-// import jwtDecode from "jwt-decode";
+import logo from '../assets/image.png'; // Import the logo image
+
+const defaultAvatar = 'https://images.unsplash.com/broken'; // Default avatar URL
 
 const Navbar = () => {
   const [username, setUsername] = useState(null);
+  const [avatar, setAvatar] = useState(defaultAvatar); // Default to defaultAvatar
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -16,8 +19,11 @@ const Navbar = () => {
         const jsonPayload = Buffer.from(base64, "base64").toString("utf8");
         const decoded = JSON.parse(jsonPayload);
 
-        console.log("Decoded: " , decoded);
+        console.log("Decoded: ", decoded);
         setUsername(decoded.username);
+        if (decoded.avatar) {
+          setAvatar(decoded.avatar); // Use provided avatar if available
+        }
       } catch (error) {
         console.error("Token decoding failed:", error);
         // Handle token decoding errors if necessary
@@ -28,15 +34,21 @@ const Navbar = () => {
   const handleLogout = () => {
     localStorage.removeItem("token");
     setUsername(null);
+    setAvatar(defaultAvatar); // Reset to default avatar on logout
     navigate("/login"); // Redirect to login page or homepage
   };
 
   return (
     <nav className="flex justify-between items-center p-4 bg-gray-800 text-white">
-      <div className="text-lg font-bold">EduGenie</div>
-      <div className="space-x-4">   
+      <img src={logo} alt="EduGenie Logo" className="h-10 w-auto" /> {/* Replace text with image */}
+      <div className="flex items-center space-x-4">   
         {username ? (
           <>
+            <img
+              src={avatar} // Display user's avatar or default
+              alt={username}
+              className="h-10 w-10 rounded-full border border-gray-400"
+            />
             <span>Welcome, {username}</span>
             <button
               onClick={handleLogout}

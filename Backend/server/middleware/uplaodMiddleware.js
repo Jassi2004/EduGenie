@@ -7,11 +7,11 @@ const storage = multer.diskStorage({
         cb(null, 'uploads/'); // Directory where files will be saved
     },
     filename: (req, file, cb) => {
-        cb(null, `${Date.now()-path.extname(file.originalname)}`); // Generate unique file names
+        cb(null, `${Date.now()}${path.extname(file.originalname)}`); // Use Date.now() and file extension correctly
     }
 });
 
-// Filter files by type, etc.
+// Filter files by type
 const fileFilter = (req, file, cb) => {
     if (file.mimetype === 'application/pdf') {
         cb(null, true);
