@@ -25,11 +25,13 @@ const generateNotesRoutes = require('./routes/generateNotesRoutes')
 const generateTestRoutes = require('./routes/generateTestRoutes');
 const publishNoteRoutes = require('./routes/publishNoteRoutes');
 const validateRoute = require('./routes/validateRoute');
+const GeminiRoutes = require('./routes/GeminiRoutes');
 app.use('/api', userRoutes);            // ok tested backend
 app.use('/api', generateNotesRoutes);   // ok tested backend
 app.use('/api', generateTestRoutes);    // ok tested backend
-app.use('/api', validateRoute)
+app.use('/api', validateRoute) 
 app.use('/api', publishNoteRoutes);
+app.use('/api', GeminiRoutes);
 
 // app.get('/', jwtAuthMiddleware ,(req, res) => {
 //     res.json({ message: `Welcome to the dashboard using link / , ${req.user.id}!` });

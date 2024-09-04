@@ -7,6 +7,7 @@ const express = require("express");
 const registerUser = async (req, res) => {
   try {
     const { username, email, password } = req.body;
+    const avatar = req.file ? req.file.path : null; // Get avatar file path if present
 
     // Validate the input fields
     if (!username) return res.status(400).json({ error: "Please enter a username" });
@@ -20,11 +21,11 @@ const registerUser = async (req, res) => {
     }
 
     // Hash the password before saving
-    const saltRounds = 10; // Define salt rounds for hashing
+    const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(password, saltRounds);
     
     // Create a new user object with the hashed password
-    const newUser = new User({ username, email, hashedPassword: hashedPassword , password: password});
+    const newUser = new User({ username, email, password: password, avatar });
 
     // Save the new user to the database
     const savedUser = await newUser.save();

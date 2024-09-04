@@ -23,7 +23,9 @@ const publishNoteFunction = async (req, res) => {
         // Save the Note document to the database
         await newNote.save();
 
-        res.json({ message: 'Notes published successfully!', note: newNote });
+        
+
+        res.json({ message: 'Notes published successfully!', noteDetails: newNote });
     } catch (error) {
         console.error('Error saving note:', error);
         res.status(500).json({ message: 'Failed to publish notes. Please try again.' });

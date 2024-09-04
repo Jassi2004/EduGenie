@@ -4,9 +4,11 @@ const { registerUser } = require('../controllers/registerController');
 const { jwtAuthMiddleware } = require('../middleware/auth');
 const { loginUser } = require('../controllers/loginController');
 const { dashboardFunction } = require('../controllers/dashboardController');
+const upload = require('../middleware/uplaodMiddleware'); // Import the updated upload middleware
 
 // Register a new user
 router.post('/register', registerUser);
+// router.post('/register', upload.single('avatar'), registerUser);
 
 // Login a user
 router.post('/login' , loginUser);

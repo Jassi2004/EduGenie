@@ -1,3 +1,5 @@
+// src/components/GenerateNotesPage.js
+
 import { useEffect, useState } from "react";
 import {
   Card,
@@ -8,15 +10,18 @@ import {
   Input,
   Select,
   Button,
-  SelectItem
+  SelectItem,
+  Spinner,
+  // Progress,
 } from "@nextui-org/react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+// import { BookLoaderComponent } from "../assets/BookLoader";
 
 export default function GenerateNotesPage() {
   const [topic, setTopic] = useState('');
   const [timeSetting, setTimeSetting] = useState('');
   const [complexity, setComplexity] = useState('');
+  const [loading, setLoading] = useState(false); // Loading state
   const navigate = useNavigate();
 
   const timeSettingOptions = ['3 hours', '1 day', '1 week', 'Detailed plan'];
@@ -31,19 +36,31 @@ export default function GenerateNotesPage() {
   }, [navigate]);
 
   const handleGenerateNotes = async () => {
-    const token = localStorage.getItem('token'); // Retrieve the auth token from localStorage
-
+    const token = localStorage.getItem('token');
+    setLoading(true); // Set loading to true when fetching starts
     try {
-      const response = await axios.post(
-        'http://localhost:5000/api/generate-notes', // Replace with your backend endpoint
-        { topic, timeSetting, complexity },
-        { headers: { 'Authorization': `Bearer ${token}` } } // Include the token in the Authorization header
-      );
+      const response = await fetch("/api/generate-notes", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ topic, timeSetting, complexity }), // Send user input data
+      });
 
-      console.log('Notes generated successfully:', response.data);
-      navigate("/dashboard");
+      if (response.ok) {
+        const responseData = await response.json();
+        console.log("Generated notes:", responseData.data); // Log to verify correct data
+
+        // Use navigate to pass the generated notes to NotesReadingPage
+        navigate("/notes-reading", { state: { generatedNotes: responseData.data } });
+      } else {
+        console.error("Failed to generate notes:", response.statusText);
+      }
     } catch (error) {
-      console.error('Error generating notes:', error.response ? error.response.data : error.message);
+      console.error("Error generating notes:", error);
+    } finally {
+      setLoading(false); // Set loading to false when fetching ends
     }
   };
 
@@ -60,49 +77,70 @@ export default function GenerateNotesPage() {
           </CardHeader>
           <Divider />
           <CardBody className="p-6">
-            {/* Topic Setting */}
-            <h4 className="text-black font-medium text-lg my-2">Topic:</h4>
-            <Input
-              type="text"
-              variant="bordered"
-              placeholder="Enter the topic you want to study"
-              value={topic}
-              onChange={(e) => setTopic(e.target.value)}
-              aria-label="Topic"
-              className="mb-4"
-            />
+            {loading ? (
+              // Show the loading spinner or progress bar when loading
+              <div className="flex flex-col items-center justify-center my-8">
+                {/* Spinner example */}
+                <Spinner size="lg" />
+                <p className="text-xl">Generating Notes.. Please Wait..</p>
+                {/* <BookLoaderComponent /> */}
 
-            {/* Time Setting */}
-            <h4 className="text-black font-medium text-lg my-2">Time Setting:</h4>
-            <Select
-              placeholder="Select time available"
-              className="max-w-xs w-full mb-4"
-              value={timeSetting}
-              onChange={(e) => setTimeSetting(e.target.value)}
-              aria-label="Select time available"
-            >
-              {timeSettingOptions.map((timeSetting, index) => (
-                <SelectItem key={index} value={timeSetting}>
-                  {timeSetting}
-                </SelectItem>
-              ))}
-            </Select>
+                {/* Progress bar example */}
+                {/* <Progress
+                  aria-label="Generating Notes..."
+                  size="md"
+                  color="success"
+                  indeterminate
+                  className="max-w-md"
+                /> */}
+              </div>
+            ) : (
+              <>
+                {/* Topic Setting */}
+                <h4 className="text-black font-medium text-lg my-2">Topic:</h4>
+                <Input
+                  type="text"
+                  variant="bordered"
+                  placeholder="Enter the topic you want to study"
+                  value={topic}
+                  onChange={(e) => setTopic(e.target.value)}
+                  aria-label="Topic"
+                  className="mb-4"
+                />
 
-            {/* Complexity Setting */}
-            <h4 className="text-black font-medium text-lg my-2">Complexity Setting:</h4>
-            <Select
-              placeholder="Select complexity"
-              className="max-w-xs w-full mb-4"
-              value={complexity}
-              onChange={(e) => setComplexity(e.target.value)}
-              aria-label="Select complexity"
-            >
-              {complexityOptions.map((complexity, index) => (
-                <SelectItem key={index} value={complexity}>
-                  {complexity}
-                </SelectItem>
-              ))}
-            </Select>
+                {/* Time Setting */}
+                <h4 className="text-black font-medium text-lg my-2">Time Setting:</h4>
+                <Select
+                  placeholder="Select time available"
+                  className="max-w-xs w-full mb-4"
+                  value={timeSetting}
+                  onChange={(e) => setTimeSetting(e.target.value)}
+                  aria-label="Select time available"
+                >
+                  {timeSettingOptions.map((timeSetting, index) => (
+                    <SelectItem key={index} value={timeSetting}>
+                      {timeSetting}
+                    </SelectItem>
+                  ))}
+                </Select>
+
+                {/* Complexity Setting */}
+                <h4 className="text-black font-medium text-lg my-2">Complexity Setting:</h4>
+                <Select
+                  placeholder="Select complexity"
+                  className="max-w-xs w-full mb-4"
+                  value={complexity}
+                  onChange={(e) => setComplexity(e.target.value)}
+                  aria-label="Select complexity"
+                >
+                  {complexityOptions.map((complexity, index) => (
+                    <SelectItem key={index} value={complexity}>
+                      {complexity}
+                    </SelectItem>
+                  ))}
+                </Select>
+              </>
+            )}
           </CardBody>
           <Divider />
           <CardFooter className="flex justify-center">
@@ -112,6 +150,7 @@ export default function GenerateNotesPage() {
               size="lg"
               variant="ghost"
               aria-label="Generate Notes"
+              disabled={loading} // Disable button when loading
             >
               Generate Notes
             </Button>
