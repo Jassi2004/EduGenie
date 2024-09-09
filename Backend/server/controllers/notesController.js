@@ -21,11 +21,12 @@ const generateNotes = async (req, res) => {
 
     try {
         // Call the function to generate notes
-        const generatedContent = await geminiFunction({
-          topic: topic,
-          time: timeSettingOptions[timeSetting],
-          complexity: complexityOptions[complexity],
-        });
+        const prompt = `Create concise notes on ${topic} for ${timeSettingOptions[timeSetting]} left before the exam. Focus on ${complexityOptions[complexity]} level of detail. Include key concepts, definitions, examples, and visual aids where applicable.`;
+
+        console.log(prompt);
+        
+
+        const generatedContent = await geminiFunction(prompt);
     
         const newNote = new Note({
           user: userId,

@@ -1,7 +1,7 @@
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 require('dotenv').config();
 
-const geminiFunction = async ({ topic, time, complexity }) => {
+const geminiFunction = async (prompt) => {
     try {
         const apiKey = process.env.GEMINI_API_KEY;
         if (!apiKey) {
@@ -11,12 +11,9 @@ const geminiFunction = async ({ topic, time, complexity }) => {
         const genAI = new GoogleGenerativeAI(apiKey);
         const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-        const prompt = `Create concise notes on ${topic} for ${time} left before the exam. Focus on ${complexity} level of detail. Include key concepts, definitions, examples, and visual aids where applicable.`;
-        console.log(prompt);
-
         // Generate content using the model
         const result = await model.generateContent(prompt);
-
+ 
         // Log the entire response to understand its structure
         console.log("Full API Response:", result);
 

@@ -8,7 +8,8 @@ import {
   Input,
   Select,
   Button,
-  SelectItem
+  SelectItem,
+  Spinner,
 } from "@nextui-org/react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -16,7 +17,9 @@ import { useNavigate } from "react-router-dom";
 export default function GenerateTestPage() {
   const [testType, setTestType] = useState("");
   const [topic, setTopic] = useState("");
+  const [complexity, setComplexity] = useState("");
   const [numberOfQuestions, setNumberOfQuestions] = useState(10);
+  const [loading, setLoading] = useState(false); // Loading state
   const navigate = useNavigate();
 
   // Check for the authentication token when the component mounts
@@ -29,24 +32,33 @@ export default function GenerateTestPage() {
   }, [navigate]);
 
   const testTypeOptions = ["mcq", "fill-in-the-blanks", "question-answers"];
+  const complexityOptions = ['Baby', 'Beginner', 'Intermediate', 'Advanced'];
+
 
   const handleGenerateTest = async () => {
     const token = localStorage.getItem("token"); // Retrieve the auth token from localStorage
+    setLoading(true); // Set loading to true when fetching starts
 
     try {
       const response = await axios.post(
         "http://localhost:5000/api/generate-test", // Replace with your backend endpoint
-        { testType:testTypeOptions[testType], topic, numberOfQuestions },
+        { testType:testTypeOptions[testType], topic, numberOfQuestions, complexity:complexityOptions[complexity] },
         { headers: { Authorization: `Bearer ${token}` } } // Include the token in the Authorization header
       );
 
       console.log("Test generated successfully:", response.data);
-      navigate("/dashboard");
+      if(testType == 0){
+        navigate("/test-display/mcq");
+      } else if(testType == 1){
+        navigate("/test-display/fill-ups");
+      }
     } catch (error) {
       console.error(
         "Error generating test:",
         error.response ? error.response.data : error.message
       );
+    } finally {
+      setLoading(false); // Set loading to false when fetching ends
     }
   };
 
@@ -63,45 +75,71 @@ export default function GenerateTestPage() {
           </CardHeader>
           <Divider />
           <CardBody className="p-6">
-            {/* Test Type Setting */}
-            <h4 className="text-black font-medium text-lg my-2">Test Type:</h4>
-            <Select
-              placeholder="Select test type"
-              className="max-w-xs w-full mb-4"
-              value={testType}
-              onChange={(e) => setTestType(e.target.value)} // Correctly extract value from the event
-              aria-label="Select test type"
-            >
-              {testTypeOptions.map((type, index) => (
-                <SelectItem key={index} value={type}>
-                  {type}
-                </SelectItem>
-              ))}
-            </Select>
+            {loading ? (
+              // Show the loading spinner or progress bar when loading
+              <div className="flex flex-col items-center justify-center my-8">
+                {/* Spinner example */}
+                <Spinner size="lg" />
+                <p className="text-xl">Generating Test... Please Wait...</p>
+              </div>
+            ) : (
+              <>
+                {/* Test Type Setting */}
+                <h4 className="text-black font-medium text-lg my-2">Test Type:</h4>
+                <Select
+                  placeholder="Select test type"
+                  className="max-w-xs w-full mb-4"
+                  value={testType}
+                  onChange={(e) => setTestType(e.target.value)}
+                  aria-label="Select test type"
+                >
+                  {testTypeOptions.map((type, index) => (
+                    <SelectItem key={index} value={type}>
+                      {type}
+                    </SelectItem>
+                  ))}
+                </Select>
 
-            {/* Topic Setting */}
-            <h4 className="text-black font-medium text-lg my-2">Topic:</h4>
-            <Input
-              type="text"
-              variant="bordered"
-              placeholder="Enter the topic"
-              value={topic}
-              onChange={(e) => setTopic(e.target.value)}
-              aria-label="Topic"
-              className="mb-4"
-            />
+                {/* Topic Setting */}
+                <h4 className="text-black font-medium text-lg my-2">Topic:</h4>
+                <Input
+                  type="text"
+                  variant="bordered"
+                  placeholder="Enter the topic"
+                  value={topic}
+                  onChange={(e) => setTopic(e.target.value)}
+                  aria-label="Topic"
+                  className="mb-4"
+                />
 
-            {/* Number of Questions Setting */}
-            <h4 className="text-black font-medium text-lg my-2">Number of Questions:</h4>
-            <Input
-              type="number"
-              variant="bordered"
-              placeholder="Enter number of questions"
-              value={numberOfQuestions}
-              onChange={(e) => setNumberOfQuestions(Number(e.target.value))}
-              aria-label="Number of questions"
-              className="mb-4"
-            />
+                {/* Number of Questions Setting */}
+                <h4 className="text-black font-medium text-lg my-2">Number of Questions:</h4>
+                <Input
+                  type="number"
+                  variant="bordered"
+                  placeholder="Enter number of questions"
+                  value={numberOfQuestions}
+                  onChange={(e) => setNumberOfQuestions(Number(e.target.value))}
+                  aria-label="Number of questions"
+                  className="mb-4"
+                />
+              {/* Complexity Setting */}
+              <h4 className="text-black font-medium text-lg my-2">Complexity:</h4>
+                <Select
+                  placeholder="Select complexity type"
+                  className="max-w-xs w-full mb-4"
+                  value={testType}
+                  onChange={(e) => setComplexity(e.target.value)}
+                  aria-label="Select complexity type"
+                >
+                  {complexityOptions.map((type, index) => (
+                    <SelectItem key={index} value={type}>
+                      {type}
+                    </SelectItem>
+                  ))}
+                </Select>
+              </>
+            )}
           </CardBody>
           <Divider />
           <CardFooter className="flex justify-center">
@@ -111,6 +149,7 @@ export default function GenerateTestPage() {
               size="lg"
               variant="ghost"
               aria-label="Generate Test"
+              disabled={loading} // Disable button when loading
             >
               Generate Test
             </Button>

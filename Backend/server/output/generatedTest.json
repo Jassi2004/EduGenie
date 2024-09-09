@@ -1,0 +1,92 @@
+[
+  {
+    "qId": 1,
+    "question": "Which command is used to display the last 10 lines of a file?",
+    "optionA": "cat -10",
+    "optionB": "head -10",
+    "optionC": "tail -10",
+    "optionD": "less -10",
+    "answer": "optionC"
+  },
+  { 
+    "qId": 2,
+    "question": "What is the purpose of the 'crontab' command?",
+    "optionA": "To manage system resources",
+    "optionB": "To schedule tasks to run automatically",
+    "optionC": "To create and edit files",
+    "optionD": "To monitor system processes",
+    "answer": "optionB"
+  },
+  {
+    "qId": 3,
+    "question": "Which of the following is NOT a common Linux file system?",
+    "optionA": "ext2",
+    "optionB": "NTFS",
+    "optionC": "ext4",
+    "optionD": "XFS",
+    "answer": "optionB"
+  },
+  {
+    "qId": 4,
+    "question": "What is the difference between 'grep' and 'egrep'?",
+    "optionA": "grep uses regular expressions, egrep doesn't",
+    "optionB": "egrep supports extended regular expressions",
+    "optionC": "grep is faster than egrep",
+    "optionD": "egrep is used for binary files, grep for text files",
+    "answer": "optionB"
+  },
+  {
+    "qId": 5,
+    "question": "Which command is used to create a symbolic link?",
+    "optionA": "ln -s",
+    "optionB": "cp -s",
+    "optionC": "mkdir -s",
+    "optionD": "link -s",
+    "answer": "optionA"
+  },
+  {
+    "qId": 6,
+    "question": "What is the purpose of the 'umask' command?",
+    "optionA": "To set permissions for new files and directories",
+    "optionB": "To manage users and groups",
+    "optionC": "To monitor network connections",
+    "optionD": "To control system resources",
+    "answer": "optionA"
+  },
+  {
+    "qId": 7,
+    "question": "How do you redirect the output of a command to a file?",
+    "optionA": "> filename",
+    "optionB": ">> filename",
+    "optionC": "< filename",
+    "optionD": "| filename",
+    "answer": "optionA"
+  },
+  {
+    "qId": 8,
+    "question": "Which command is used to search for files based on their contents?",
+    "optionA": "find",
+    "optionB": "locate",
+    "optionC": "grep",
+    "optionD": "which",
+    "answer": "optionA"
+  },
+  {
+    "qId": 9,
+    "question": "What does the 'chmod' command do?",
+    "optionA": "Changes the owner of a file or directory",
+    "optionB": "Changes the permissions of a file or directory",
+    "optionC": "Creates a new file or directory",
+    "optionD": "Deletes a file or directory",
+    "answer": "optionB"
+  },
+  {
+    "qId": 10,
+    "question": "What is the purpose of the 'apt-get' command?",
+    "optionA": "To manage system processes",
+    "optionB": "To install and manage software packages",
+    "optionC": "To configure network settings",
+    "optionD": "To edit system files",
+    "answer": "optionB"
+  }
+]
