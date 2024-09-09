@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom"; // Import Link from react-router-dom
 import { Buffer } from 'buffer';
+import { Tooltip, Button } from '@nextui-org/react'; // Import Tooltip and Button from NextUI
 import logo from '../assets/image.png'; // Import the logo image
 
-const defaultAvatar = 'https://images.unsplash.com/broken'; // Default avatar URL
+const defaultAvatar = 'https://media.istockphoto.com/id/619400810/photo/mr-who.jpg?s=2048x2048&w=is&k=20&c=ajUh75eNfNRDL0M0pcCOfq82dlak8mKavlAKgNbMgl4='; // Default avatar URL
 
 const Navbar = () => {
   const [username, setUsername] = useState(null);
@@ -31,7 +32,8 @@ const Navbar = () => {
     }
   }, []);
 
-  const handleLogout = () => {
+  const handleLogout = (e) => {
+    e.stopPropagation(); // Prevent the click event from bubbling up to the Link
     localStorage.removeItem("token");
     setUsername(null);
     setAvatar(defaultAvatar); // Reset to default avatar on logout
@@ -41,39 +43,56 @@ const Navbar = () => {
   return (
     <nav className="flex justify-between items-center p-4 bg-gray-800 text-white">
       <img src={logo} alt="EduGenie Logo" className="h-10 w-auto" /> {/* Replace text with image */}
-      <div className="flex items-center space-x-4">   
-        {username ? (
-          <>
-            <img
-              src={avatar} // Display user's avatar or default
-              alt={username}
-              className="h-10 w-10 rounded-full border border-gray-400"
-            />
-            <span>Welcome, {username}</span>
-            <button
-              onClick={handleLogout}
-              className="bg-blue-500 hover:bg-blue-700 px-4 py-2 rounded"
-            >
-              Logout
-            </button>
-          </>
-        ) : (
-          <>
-            <button
-              onClick={() => navigate("/login")}
-              className="bg-blue-500 hover:bg-blue-700 px-4 py-2 rounded"
-            >
-              Login
-            </button>
-            <button
-              onClick={() => navigate("/register")}
-              className="bg-green-500 hover:bg-green-700 px-4 py-2 rounded"
-            >
-              Sign Up
-            </button>
-          </>
-        )}
-      </div>
+      <Tooltip content="Redirects to Dashboard" placement="bottom">
+        <Link 
+          to="/userDashboard"
+          className="flex items-center space-x-4"
+        >
+          {username ? (
+            <>
+              <img
+                src={avatar} // Display user's avatar or default
+                alt={username}
+                className="h-10 w-10 rounded-full border border-gray-400"
+              />
+              <span>{username}</span>
+              <Button 
+                auto 
+                color="primary"
+                onClick={handleLogout}
+                className="bg-blue-500 hover:bg-blue-700 px-4 py-2 rounded"
+              >
+                Logout
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button 
+                auto 
+                color="primary"
+                onClick={(e) => {
+                  e.stopPropagation(); // Prevent the click event from bubbling up to the Link
+                  navigate("/login");
+                }}
+                className="bg-blue-500 hover:bg-blue-700 px-4 py-2 rounded"
+              >
+                Login
+              </Button>
+              <Button 
+                auto 
+                color="success"
+                onClick={(e) => {
+                  e.stopPropagation(); // Prevent the click event from bubbling up to the Link
+                  navigate("/register");
+                }}
+                className="bg-green-500 hover:bg-green-700 px-4 py-2 rounded"
+              >
+                Sign Up
+              </Button>
+            </>
+          )}
+        </Link>
+      </Tooltip>
     </nav>
   );
 };

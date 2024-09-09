@@ -19,6 +19,7 @@
     "buffer": "^6.0.3",
     "framer-motion": "^10.17.0",
     "frontend": "file:",
+    "html2canvas": "^1.4.1",
     "jspdf": "^2.5.1",
     "jwt-decode": "^4.0.0",
     "jwt-simple": "^0.5.6",

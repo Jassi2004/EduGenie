@@ -6,7 +6,7 @@
     0% {
       background-position: 0% 0%;
     }
-    50% {
+    80% {
       background-position: 100% 100%;
     }
     100%{
@@ -15,7 +15,7 @@
   }
   
   .moving-gradient {
-    background: linear-gradient(45deg, #f3f4f6, #abb7c2);
+    background: linear-gradient(45deg, #f3f4f6, #9ec9f1);
     background-size: 200% 200%;
     animation: gradientShift 5s ease infinite;
   }

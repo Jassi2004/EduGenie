@@ -11,6 +11,8 @@ import PublishNotesPage from "./components/PublishNotesPage";
 import NotesReadingPage from "./components/NotesReadingPage"
 import McqTestDisplay from "./components/TestDisplayPages/McqTestDisplay";
 import FillUpsTestPage from "./components/TestDisplayPages/FillUpsTestPage";
+import UserDashboard from "./components/UserDashboard/UserDashBoard";
+import TestDetails from "./components/UserDashboard/TestDetails";
 
 // Import other components as needed
 
@@ -29,6 +31,9 @@ const App = () => {
                     <Route path="/generate-test" element={<GenerateTestPage />} />
                     <Route path="/test-display/mcq" element={<McqTestDisplay />} />
                     <Route path="/test-display/fill-ups" element={<FillUpsTestPage />} />
+
+                    <Route path="/userDashboard" element={<UserDashboard />} />
+                    <Route path="/test-details/:testId" element={<TestDetails />} />
                 </Route>
 
 

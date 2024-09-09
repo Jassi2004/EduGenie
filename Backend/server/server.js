@@ -42,6 +42,11 @@ app.use('/api', validateRoute)
 const getTestData = require('./routes/getTestDataFromJson');
 app.use('/api', getTestData);
 
+const getUserTests = require('./routes/getUserTestRoutes');
+app.use('/api' , getUserTests)
+
+const testRoutes = require('./routes/getTestDetailRoute');
+app.use('/api', testRoutes);
 
 // const GeminiRoutes = require('./routes/GeminiRoutes');
 // app.use('/api', GeminiRoutes);
