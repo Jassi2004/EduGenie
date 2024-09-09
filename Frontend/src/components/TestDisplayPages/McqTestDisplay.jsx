@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 import {
   Card,
@@ -17,12 +18,16 @@ const MCQTestPage = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [score, setScore] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
+  
+  // Get topic from location state
+  const location = useLocation();
+  const topic = location.state?.topic; // Use optional chaining to avoid errors if topic is undefined
 
   useEffect(() => {
     const fetchQuizData = async () => {
       try {
         const response = await axios.get('http://localhost:5000/api/get-test-data');
-        setQuizData(response.data.testData);
+        setQuizData(response.data.data); 
         setIsLoading(false);
       } catch (error) {
         console.error('Error fetching quiz data:', error);
@@ -41,40 +46,56 @@ const MCQTestPage = () => {
 
   const handleSubmit = async () => {
     let currentScore = 0;
-  
+
     // Calculate the score
     quizData.forEach(question => {
-      if (selectedAnswers[question.qId] === question.answer) {
+      const correctAnswerText = question.answer; // The text of the correct answer
+      const selectedOption = selectedAnswers[question.qId]; // The letter of the selected option
+      const selectedAnswerText = question[`option${selectedOption}`]; // Text of the selected option
+      
+      if (correctAnswerText === selectedAnswerText) {
         currentScore++;
       }
-    });
-  
+    }); 
+
     setScore(currentScore);
     setIsSubmitted(true);
-  
-    // Prepare data to send to the backend
-    const testResultData = {
-      userId: '66d721c657d6ff6e9e73f714', // Replace with the actual user ID
-      testId: '66dd68ef6fcef28e123db435', // Replace with the actual test ID
+
+    // Prepare data for the PATCH request to update the score
+    const scoreUpdateData = {
       score: currentScore,
-      testType: 'mcq', // Adjust based on your data
-      topic: 'linux',  // Adjust based on your data
-      numberOfQuestions: quizData.length
+      testType: 'mcq',
+      topic: `${topic}`,
+      timestamp: new Date().toISOString() // Optional: Add a timestamp if needed
     };
-  
+
+    // PATCH request to update the test result
     try {
-      const response = await axios.post('http://localhost:5000/api/submit-test', testResultData);
-  
-      if (response.data.message === 'Test submitted successfully') {
-        console.log('Test results saved successfully');
+      const response = await axios.patch('http://localhost:5000/api/save-test-results', scoreUpdateData, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+          'Content-Type': 'application/json' // Ensure the content type is correct
+        }
+      });
+
+      if (response.data.message === 'Test results updated successfully') {
+        console.log('Test results updated successfully');
       } else {
-        console.error('Error saving test results:', response.data.message);
+        console.error('Error updating test results:', response.data.message);
       }
     } catch (error) {
-      console.error('Error submitting test results:', error);
+      if (error.response) {
+        console.error('Error response:', error.response.data);
+        console.error('Error status:', error.response.status);
+        console.error('Error headers:', error.response.headers);
+      } else if (error.request) {
+        console.error('Error request:', error.request);
+      } else {
+        console.error('Error message:', error.message);
+      }
+      console.error('Error config:', error.config);
     }
   };
-  
 
   const handleRetry = () => {
     window.location.reload();
@@ -110,9 +131,11 @@ const MCQTestPage = () => {
       )}
 
       {quizData.map((question, index) => {
-        const isCorrect = selectedAnswers[question.qId] === question.answer;
+        const selectedOption = selectedAnswers[question.qId];
+        const selectedAnswerText = question[`option${selectedOption}`];
+        const isCorrect = selectedAnswerText === question.answer;
         const cardColorClass = isSubmitted ? (isCorrect ? 'bg-green-100' : 'bg-red-100') : '';
-        const correctAnswerText = question[question.answer]; // Get the correct answer text
+        const correctAnswerText = question.answer; // Text of the correct answer
 
         return (
           <Card key={question.qId} className={`mb-6 ${cardColorClass}`}>
@@ -122,22 +145,29 @@ const MCQTestPage = () => {
             </CardHeader>
             <CardBody className="overflow-visible py-2">
               <RadioGroup
-                value={selectedAnswers[question.qId] || ''}
+                value={selectedOption || ''}
                 onValueChange={(value) => handleOptionSelect(question.qId, value)}
                 isDisabled={isSubmitted}
               >
-                {['A', 'B', 'C', 'D'].map((option) => (
-                  <Radio
-                    key={option}
-                    value={`option${option}`}
-                    className={isSubmitted && `option${option}` === question.answer ? "text-green-500 font-bold" : ""}
-                  >
-                    {question[`option${option}`]}
-                    {isSubmitted && `option${option}` === question.answer && (
-                      <span className="ml-2 text-green-500">✓</span>
-                    )}
-                  </Radio>
-                ))}
+                {['A', 'B', 'C', 'D'].map((option) => {
+                  const optionText = question[`option${option}`];
+                  const isOptionCorrect = optionText === question.answer;
+                  const isSelected = selectedOption === option;
+                  const optionColorClass = isSubmitted ? (isSelected && isOptionCorrect ? "text-green-500 font-bold" : "text-red-500") : "";
+
+                  return (
+                    <Radio
+                      key={option}
+                      value={option}
+                      className={optionColorClass}
+                    >
+                      {optionText}
+                      {isSubmitted && isSelected && isOptionCorrect && (
+                        <span className="ml-2 text-green-500">✓</span>
+                      )}
+                    </Radio>
+                  );
+                })}
               </RadioGroup>
               {isSubmitted && (
                 <div className="mt-2">

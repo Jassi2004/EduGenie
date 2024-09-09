@@ -48,7 +48,7 @@ export default function GenerateTestPage() {
 
       console.log("Test generated successfully:", response.data);
       if(testType == 0){
-        navigate("/test-display/mcq");
+        navigate("/test-display/mcq", { state: { topic } });
       } else if(testType == 1){
         navigate("/test-display/fill-ups");
       }

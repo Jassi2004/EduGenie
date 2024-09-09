@@ -25,8 +25,9 @@ const generateTest = async (req, res) => {
         let prompt = `Generate a ${testType} test on the topic of ${topic} with ${numberOfQuestions} questions. Ensure the test matches the intermediate difficulty level, and include correct answers and explanations for each question. The complexity of the test should be ${complexity}.`;
 
         if (testType === 'mcq') {
-            prompt += ` Provide output in the following JSON format: [{"qId": 1, "question": "This is the question?", "optionA": "This is option A", "optionB": "This is option B", "optionC": "This is option C", "optionD": "This is option D", "answer": "Correct answer, not the option but the answer"}] without any newline characters.`;
-        } else if (testType === 'fill-in-the-blanks') {
+            prompt += ` Provide output in the following JSON format: [{"qId": 1, "question": "This is the question?", "optionA": "This is option A", "optionB": "This is option B", "optionC": "This is option C", "optionD": "This is option D", "answer": "This is the correct answer in text form"}] without any newline characters. Ensure that the "answer" field contains the actual text of the correct option, not its label.`;
+        }
+         else if (testType === 'fill-in-the-blanks') {
             prompt += ` Provide output in a strict JSON format. Each question should follow this format: 
             [{"qId": 1, "question": "A complete sentence with one or more blanks represented as *****", "answer": "Correct answer for the blank", "hint" : "a small hint related to the answer"}]. 
             Ensure that the "question" field contains a complete sentence with a clearly indicated blank (*****), and the "answer" field provides the correct word or phrase for that blank. Do not include any additional text, explanations, or formatting outside of this JSON structure.`;
@@ -50,7 +51,7 @@ const generateTest = async (req, res) => {
         }
 
         // Save JSON to file
-        const outputDir = path.join(__dirname, '../output');
+        const outputDir = path.join(__dirname, '../../output');
         if (!fs.existsSync(outputDir)) {
             fs.mkdirSync(outputDir); // Create the output directory if it doesn't exist
         }

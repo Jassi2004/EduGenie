@@ -32,20 +32,19 @@ app.use('/api', generateTestRoutes);    // ok tested backend
 
 const saveTestResults = require('./routes/saveTestRoutes')
 app.use('/api', saveTestResults);
-
+ 
 const publishNoteRoutes = require('./routes/publishNoteRoutes');
 app.use('/api', publishNoteRoutes);
 
+const validateRoute = require('./routes/validateRoute');
+app.use('/api', validateRoute) 
 
-// const validateRoute = require('./routes/validateRoute');
+const getTestData = require('./routes/getTestDataFromJson');
+app.use('/api', getTestData);
+
+
 // const GeminiRoutes = require('./routes/GeminiRoutes');
-// const saveTestRoutes = require('./routes/saveTestRoutes');
-// // const getTestData = require('./routes/getTestDataRoutes');
-
-
-// app.use('/api', validateRoute) 
 // app.use('/api', GeminiRoutes);
-// app.use('/api', require('./routes/getTestDataRoutes'));
 
 
 
