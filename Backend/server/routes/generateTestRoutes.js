@@ -1,5 +1,5 @@
 const express = require('express');
-const { generateTest } = require('../controllers/testController');
+const { generateTest } = require('../controllers/generatingControllers/testController');
 const { jwtAuthMiddleware } = require('../middleware/auth');
 
 const router = express.Router();

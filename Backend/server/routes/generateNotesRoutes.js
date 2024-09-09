@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { generateNotes } = require('../controllers/notesController');
+const { generateNotes } = require('../controllers/generatingControllers/notesController');
 const { jwtAuthMiddleware } = require('../middleware/auth');
 
 router.post('/generate-notes', jwtAuthMiddleware, generateNotes);

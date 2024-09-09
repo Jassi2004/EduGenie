@@ -38,7 +38,7 @@ const FillUpsTestPage = () => {
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     let currentScore = 0;
     quizData.forEach(question => {
       if (selectedAnswers[question.qId]?.trim().toLowerCase() === question.answer.trim().toLowerCase()) {
@@ -47,8 +47,21 @@ const FillUpsTestPage = () => {
     });
     setScore(currentScore);
     setIsSubmitted(true);
+  
+    // Save the test results to the backend
+    try {
+      const response = await axios.patch('http://localhost:5000/api/save-test-results', {
+        score: currentScore,
+        timestamp: new Date().toISOString(),
+        testType: 'fill-in-the-blanks', // Make sure this matches the test type used
+        topic: 'Your Topic Here' // Make sure this matches the topic used
+      });
+      console.log('Test results saved:', response.data);
+    } catch (error) {
+      console.error('Error saving test results:', error);
+    }
   };
-
+  
   const handleRetry = () => {
     window.location.reload();
   };

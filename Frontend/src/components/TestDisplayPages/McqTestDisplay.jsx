@@ -39,16 +39,42 @@ const MCQTestPage = () => {
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     let currentScore = 0;
+  
+    // Calculate the score
     quizData.forEach(question => {
       if (selectedAnswers[question.qId] === question.answer) {
         currentScore++;
       }
     });
+  
     setScore(currentScore);
     setIsSubmitted(true);
+  
+    // Prepare data to send to the backend
+    const testResultData = {
+      userId: '66d721c657d6ff6e9e73f714', // Replace with the actual user ID
+      testId: '66dd68ef6fcef28e123db435', // Replace with the actual test ID
+      score: currentScore,
+      testType: 'mcq', // Adjust based on your data
+      topic: 'linux',  // Adjust based on your data
+      numberOfQuestions: quizData.length
+    };
+  
+    try {
+      const response = await axios.post('http://localhost:5000/api/submit-test', testResultData);
+  
+      if (response.data.message === 'Test submitted successfully') {
+        console.log('Test results saved successfully');
+      } else {
+        console.error('Error saving test results:', response.data.message);
+      }
+    } catch (error) {
+      console.error('Error submitting test results:', error);
+    }
   };
+  
 
   const handleRetry = () => {
     window.location.reload();

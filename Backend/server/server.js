@@ -11,7 +11,7 @@ const app = express();
 app.use(express.json()); // Parse JSON bodies
 app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
 
-// Middleware
+// // Middleware
 app.use(cors()); // Enable CORS
 app.use(cors({
     origin: 'http://localhost:5173', // Frontend URL
@@ -19,25 +19,38 @@ app.use(cors({
     credentials: true // Allow credentials such as cookies
 }));
 
-// ROUTES
-const userRoutes = require('./routes/userRoutes');
-const generateNotesRoutes = require('./routes/generateNotesRoutes')
-const generateTestRoutes = require('./routes/generateTestRoutes');
-const publishNoteRoutes = require('./routes/publishNoteRoutes');
-const validateRoute = require('./routes/validateRoute');
-const GeminiRoutes = require('./routes/GeminiRoutes');
-// const getTestData = require('./routes/getTestDataRoutes');
-app.use('/api', userRoutes);            // ok tested backend
-app.use('/api', generateNotesRoutes);   // ok tested backend
-app.use('/api', generateTestRoutes);    // ok tested backend
-app.use('/api', validateRoute) 
-app.use('/api', publishNoteRoutes);
-app.use('/api', GeminiRoutes);
-app.use('/api', require('./routes/getTestDataRoutes'));
+// // ROUTES
 
-// app.get('/', jwtAuthMiddleware ,(req, res) => {
-//     res.json({ message: `Welcome to the dashboard using link / , ${req.user.id}!` });
-// });
+const userRoutes = require('./routes/userRoutes');
+app.use('/api', userRoutes);            // ok tested backend
+
+const generateNotesRoutes = require('./routes/generateNotesRoutes')
+app.use('/api', generateNotesRoutes);   // ok tested backend
+
+const generateTestRoutes = require('./routes/generateTestRoutes');
+app.use('/api', generateTestRoutes);    // ok tested backend
+
+const saveTestResults = require('./routes/saveTestRoutes')
+app.use('/api', saveTestResults);
+
+const publishNoteRoutes = require('./routes/publishNoteRoutes');
+app.use('/api', publishNoteRoutes);
+
+
+// const validateRoute = require('./routes/validateRoute');
+// const GeminiRoutes = require('./routes/GeminiRoutes');
+// const saveTestRoutes = require('./routes/saveTestRoutes');
+// // const getTestData = require('./routes/getTestDataRoutes');
+
+
+// app.use('/api', validateRoute) 
+// app.use('/api', GeminiRoutes);
+// app.use('/api', require('./routes/getTestDataRoutes'));
+
+
+
+
+
 
 // Start the server
 const PORT = process.env.PORT || 5000;
