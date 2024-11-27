@@ -2,107 +2,87 @@ import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 import {
-  Card,
-  CardHeader,
-  CardBody,
   Button,
-  Radio,
-  RadioGroup,
-  Progress,
-  Spinner
+  Spinner,
 } from "@nextui-org/react";
+import QuestionCard from './QuestionCard'; // Extracted component for rendering a question
+import ScoreCard from './ScoreCard'; // Extracted component for score display
+
+const fetchQuizData = async () => {
+  const response = await axios.get(`http://localhost:5000/api/get-test-data`);
+  return response.data.data;
+};
+
+const updateTestResults = async (data) => {
+  const response = await axios.patch(`http://localhost:5000/api/save-test-results`, data, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+      'Content-Type': 'application/json',
+    },
+  });
+  return response.data;
+};
 
 const MCQTestPage = () => {
   const [quizData, setQuizData] = useState([]);
   const [selectedAnswers, setSelectedAnswers] = useState({});
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [score, setScore] = useState(0);
+  const [score, setScore] = useState(null); // Use `null` to differentiate between "not submitted" and "submitted"
   const [isLoading, setIsLoading] = useState(true);
-  
-  // Get topic from location state
+
   const location = useLocation();
-  const topic = location.state?.topic; // Use optional chaining to avoid errors if topic is undefined
+  const topic = location.state?.topic;
 
   useEffect(() => {
-    const fetchQuizData = async () => {
+    const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/get-test-data');
-        setQuizData(response.data.data); 
-        setIsLoading(false);
+        const data = await fetchQuizData();
+        setQuizData(data);
       } catch (error) {
         console.error('Error fetching quiz data:', error);
+      } finally {
         setIsLoading(false);
       }
     };
 
-    fetchQuizData();
+    fetchData();
   }, []);
 
   const handleOptionSelect = (qId, option) => {
-    if (!isSubmitted) {
-      setSelectedAnswers(prev => ({ ...prev, [qId]: option }));
+    if (score === null) { // Prevent changes after submission
+      setSelectedAnswers((prev) => ({ ...prev, [qId]: option }));
     }
   };
 
+  const calculateScore = () => {
+    return quizData.reduce((acc, question) => {
+      const selectedOption = selectedAnswers[question.qId];
+      const selectedAnswerText = question[`option${selectedOption}`];
+      return acc + (selectedAnswerText === question.answer ? 1 : 0);
+    }, 0);
+  };
+
   const handleSubmit = async () => {
-    let currentScore = 0;
-
-    // Calculate the score
-    quizData.forEach(question => {
-      const correctAnswerText = question.answer; // The text of the correct answer
-      const selectedOption = selectedAnswers[question.qId]; // The letter of the selected option
-      const selectedAnswerText = question[`option${selectedOption}`]; // Text of the selected option
-      
-      if (correctAnswerText === selectedAnswerText) {
-        currentScore++;
-      }
-    }); 
-
+    const currentScore = calculateScore();
     setScore(currentScore);
-    setIsSubmitted(true);
 
-    // Prepare data for the PATCH request to update the score
-    const scoreUpdateData = {
+    const payload = {
       score: currentScore,
       testType: 'mcq',
-      topic: `${topic}`,
-      timestamp: new Date().toISOString() // Optional: Add a timestamp if needed
+      topic,
+      timestamp: new Date().toISOString(),
     };
 
-    // PATCH request to update the test result
     try {
-      const response = await axios.patch('http://localhost:5000/api/save-test-results', scoreUpdateData, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-          'Content-Type': 'application/json' // Ensure the content type is correct
-        }
-      });
-
-      if (response.data.message === 'Test results updated successfully') {
-        console.log('Test results updated successfully');
-      } else {
-        console.error('Error updating test results:', response.data.message);
-      }
+      const response = await updateTestResults(payload);
+      console.log(response.message);
     } catch (error) {
-      if (error.response) {
-        console.error('Error response:', error.response.data);
-        console.error('Error status:', error.response.status);
-        console.error('Error headers:', error.response.headers);
-      } else if (error.request) {
-        console.error('Error request:', error.request);
-      } else {
-        console.error('Error message:', error.message);
-      }
-      console.error('Error config:', error.config);
+      console.error('Error updating test results:', error);
     }
   };
 
   const handleRetry = () => {
-    window.location.reload();
-  };
-
-  const handleGenerateNewTest = () => {
-    window.location.href = 'http://localhost:5173/generate-test';
+    setScore(null);
+    setSelectedAnswers({});
   };
 
   if (isLoading) {
@@ -117,99 +97,41 @@ const MCQTestPage = () => {
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-6">MCQ Test</h1>
 
-      {isSubmitted && (
-        <Card className="mb-6 bg-gradient-to-r from-blue-500 to-purple-500">
-          <CardBody>
-            <h2 className="text-2xl font-bold text-white mb-2">Your Score: {score} out of {quizData.length}</h2>
-            <Progress
-              value={(score / quizData.length) * 100}
-              color="success"
-              className="mt-2"
-            />
-          </CardBody>
-        </Card>
+      {score !== null && (
+        <ScoreCard score={score} total={quizData.length} />
       )}
 
-      {quizData.map((question, index) => {
-        const selectedOption = selectedAnswers[question.qId];
-        const selectedAnswerText = question[`option${selectedOption}`];
-        const isCorrect = selectedAnswerText === question.answer;
-        const cardColorClass = isSubmitted ? (isCorrect ? 'bg-green-100' : 'bg-red-100') : '';
-        const correctAnswerText = question.answer; // Text of the correct answer
+      {quizData.map((question, index) => (
+        <QuestionCard
+          key={question.qId}
+          question={question}
+          index={index}
+          isSubmitted={score !== null}
+          selectedOption={selectedAnswers[question.qId]}
+          handleOptionSelect={handleOptionSelect}
+        />
+      ))}
 
-        return (
-          <Card key={question.qId} className={`mb-6 ${cardColorClass}`}>
-            <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
-              <p className="text-tiny uppercase font-bold">Question {index + 1}</p>
-              <h4 className="font-bold text-large">{question.question}</h4>
-            </CardHeader>
-            <CardBody className="overflow-visible py-2">
-              <RadioGroup
-                value={selectedOption || ''}
-                onValueChange={(value) => handleOptionSelect(question.qId, value)}
-                isDisabled={isSubmitted}
-              >
-                {['A', 'B', 'C', 'D'].map((option) => {
-                  const optionText = question[`option${option}`];
-                  const isOptionCorrect = optionText === question.answer;
-                  const isSelected = selectedOption === option;
-                  const optionColorClass = isSubmitted ? (isSelected && isOptionCorrect ? "text-green-500 font-bold" : "text-red-500") : "";
-
-                  return (
-                    <Radio
-                      key={option}
-                      value={option}
-                      className={optionColorClass}
-                    >
-                      {optionText}
-                      {isSubmitted && isSelected && isOptionCorrect && (
-                        <span className="ml-2 text-green-500">✓</span>
-                      )}
-                    </Radio>
-                  );
-                })}
-              </RadioGroup>
-              {isSubmitted && (
-                <div className="mt-2">
-                  <p className={`font-semibold ${isCorrect ? 'text-green-500' : 'text-red-500'}`}>
-                    {isCorrect ? 'Correct!' : 'Incorrect'}
-                  </p>
-                  {!isCorrect && (
-                    <p className="mt-1 text-sm text-green-500">Correct Answer: {correctAnswerText}</p>
-                  )}
-                </div>
-              )}
-            </CardBody>
-          </Card>
-        );
-      })}
-
-      {!isSubmitted ? (
-        <Button
-          color="primary"
-          auto
-          onClick={handleSubmit}
-        >
-          Submit Test
-        </Button>
-      ) : (
-        <div className="flex gap-4 mt-6">
-          <Button
-            color="primary"
-            auto
-            onClick={handleRetry}
-          >
-            Retry This Test
+      <div className="mt-6">
+        {score === null ? (
+          <Button color="primary" auto onClick={handleSubmit}>
+            Submit Test
           </Button>
-          <Button
-            color="secondary"
-            auto
-            onClick={handleGenerateNewTest}
-          >
-            Generate New Test
-          </Button>
-        </div>
-      )}
+        ) : (
+          <div className="flex gap-4">
+            <Button color="primary" auto onClick={handleRetry}>
+              Retry This Test
+            </Button>
+            <Button
+              color="secondary"
+              auto
+              onClick={() => window.location.href = '/generate-test'}
+            >
+              Generate New Test
+            </Button>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

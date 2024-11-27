@@ -7,7 +7,7 @@ const storage = multer.diskStorage({
         cb(null, 'uploads/'); // Directory where files will be saved
     },
     filename: (req, file, cb) => {
-        cb(null, `${Date.now()}${path.extname(file.originalname)}`); // Use Date.now() and file extension correctly
+        cb(null, `${Date.now()}${path.extname(file.originalname)}`); // Generate unique file name
     }
 });
 
@@ -22,12 +22,11 @@ const fileFilter = (req, file, cb) => {
     }
 };
 
-
 // Create upload middleware
 const upload = multer({
     storage: storage,
     fileFilter: fileFilter,
-    limits: { fileSize: 10 * 1024 * 1024 } // Optional: limit the file size to 10MB
+    limits: { fileSize: 10 * 1024 * 1024 }, // Optional: limit the file size to 10MB
 });
 
 module.exports = upload;

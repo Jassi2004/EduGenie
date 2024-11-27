@@ -1,74 +1,8 @@
 [
   {
     "qId": 1,
-    "question": "Which Docker command builds an image from a Dockerfile?",
-    "optionA": "docker build",
-    "optionB": "docker run",
-    "optionC": "docker push",
-    "optionD": "docker pull",
-    "answer": "docker build"
-  },
-  {
-    "qId": 2,
-    "question": "What is the purpose of the Dockerfile's `COPY` instruction?",
-    "optionA": "To run a command within the container",
-    "optionB": "To define the base image for the container",
-    "optionC": "To copy files from the host machine into the container",
-    "optionD": "To set environment variables for the container",
-    "answer": "To copy files from the host machine into the container"
-  },
-  {
-    "qId": 3,
-    "question": "How do you specify a specific tag for a Docker image?",
-    "optionA": "By adding a tag to the Dockerfile",
-    "optionB": "By using the `docker tag` command",
-    "optionC": "By adding a tag in the `docker run` command",
-    "optionD": "By using the `docker push` command with a tag",
-    "answer": "By using the `docker tag` command"
-  },
-  {
-    "qId": 4,
-    "question": "What is the difference between `docker-compose up` and `docker-compose run`?",
-    "optionA": "`docker-compose up` runs all services in the compose file, while `docker-compose run` only runs a specific service",
-    "optionB": "`docker-compose up` creates and starts containers, while `docker-compose run` runs a command in an existing container",
-    "optionC": "They are the same command, just different syntax",
-    "optionD": "There is no difference, they both start containers",
-    "answer": "`docker-compose up` runs all services in the compose file, while `docker-compose run` only runs a specific service"
-  },
-  {
-    "qId": 5,
-    "question": "Which Dockerfile instruction is used to define the working directory inside the container?",
-    "optionA": "RUN",
-    "optionB": "WORKDIR",
-    "optionC": "COPY",
-    "optionD": "CMD",
-    "answer": "WORKDIR"
-  },
-  {
-    "qId": 6,
-    "question": "What is the purpose of Docker volumes?",
-    "optionA": "To store persistent data outside the container",
-    "optionB": "To define the container's network configuration",
-    "optionC": "To manage user accounts inside the container",
-    "optionD": "To define environment variables for the container",
-    "answer": "To store persistent data outside the container"
-  },
-  {
-    "qId": 7,
-    "question": "How can you access a running container's shell?",
-    "optionA": "By using the `docker exec` command",
-    "optionB": "By using the `docker ps` command",
-    "optionC": "By using the `docker logs` command",
-    "optionD": "By using the `docker start` command",
-    "answer": "By using the `docker exec` command"
-  },
-  {
-    "qId": 8,
-    "question": "What is the main benefit of using Docker multi-stage builds?",
-    "optionA": "They allow you to build multiple containers at once",
-    "optionB": "They create smaller and more efficient images",
-    "optionC": "They allow you to run containers on different platforms",
-    "optionD": "They provide a simpler way to manage container dependencies",
-    "answer": "They create smaller and more efficient images"
+    "question": "The command used to list files and directories in Linux is *****.",
+    "answer": "ls",
+    "hint": "This is a very common command."
   }
 ]

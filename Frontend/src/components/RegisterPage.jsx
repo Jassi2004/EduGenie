@@ -44,17 +44,17 @@ export default function RegisterPage() {
 
     return (
         <div className="flex justify-center items-center min-h-screen bg-gray-100">
-            <Card 
-                isFooterBlurred 
-                radius="lg" 
+            <Card
+                isFooterBlurred
+                radius="lg"
                 className="p-8 w-96 border-none shadow-lg bg-white"
             >
                 <div className="flex flex-col items-center">
                     {/* Navigation to Login */}
-                    <Button 
-                        color="primary" 
-                        variant="light" 
-                        className="w-full mb-4" 
+                    <Button
+                        color="primary"
+                        variant="light"
+                        className="w-full mb-4"
                         onClick={() => navigate("/login")}
                         disabled={loading}
                     >
@@ -62,58 +62,58 @@ export default function RegisterPage() {
                     </Button>
 
                     {/* Username Input */}
-                    <Input 
-                        isRequired 
-                        type="text" 
-                        label="Username" 
-                        placeholder="Enter your username" 
-                        className="w-full mb-4" 
+                    <Input
+                        isRequired
+                        type="text"
+                        label="Username"
+                        placeholder="Enter your username"
+                        className="w-full mb-4"
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
                     />
 
                     {/* Email Input */}
-                    <Input 
-                        isRequired 
-                        type="email" 
-                        label="Email" 
-                        placeholder="Enter your email" 
-                        className="w-full mb-4" 
+                    <Input
+                        isRequired
+                        type="email"
+                        label="Email"
+                        placeholder="Enter your email"
+                        className="w-full mb-4"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                     />
 
                     {/* Password Input */}
-                    <Input 
-                        isRequired 
-                        type="password" 
-                        label="Password" 
-                        placeholder="Enter your password" 
-                        className="w-full mb-4" 
+                    <Input
+                        isRequired
+                        type="password"
+                        label="Password"
+                        placeholder="Enter your password"
+                        className="w-full mb-4"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                     />
 
                     {/* Confirm Password Input */}
-                    <Input 
-                        isRequired 
-                        type="password" 
-                        label="Confirm Password" 
-                        placeholder="Confirm your password" 
-                        className="w-full mb-4" 
+                    <Input
+                        isRequired
+                        type="password"
+                        label="Confirm Password"
+                        placeholder="Confirm your password"
+                        className="w-full mb-4"
                         value={confirmPassword}
                         onChange={(e) => setConfirmPassword(e.target.value)}
                     />
 
-                    
+
 
                     {/* Error Message */}
                     {error && <p className="text-red-500 mb-4">{error}</p>}
 
                     {/* Submit Button */}
-                    <Button 
-                        color="primary" 
-                        variant="solid" 
+                    <Button
+                        color="primary"
+                        variant="solid"
                         className="w-full mb-4"
                         onClick={handleRegisterClick}
                         disabled={loading}
@@ -125,16 +125,16 @@ export default function RegisterPage() {
                     <Divider className="my-4" />
 
                     {/* Social Register Buttons */}
-                    <Button 
-                        color="secondary" 
-                        variant="bordered" 
+                    <Button
+                        color="secondary"
+                        variant="bordered"
                         className="w-full mb-2"
                     >
                         Register with Google
                     </Button>
-                    <Button 
-                        color="secondary" 
-                        variant="bordered" 
+                    <Button
+                        color="secondary"
+                        variant="bordered"
                         className="w-full mb-4"
                     >
                         Register with LinkedIn

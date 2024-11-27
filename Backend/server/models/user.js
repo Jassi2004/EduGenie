@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 
+// User schema definition
 const UserSchema = new mongoose.Schema({
     username: {
         type: String,
@@ -20,9 +21,14 @@ const UserSchema = new mongoose.Schema({
         type: String, // URL of the avatar image
         required: false, // Avatar is optional
         default: 'https://images.unsplash.com/broken' // Default avatar URL
-    }
+    },
+    publishedNotes: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'publishNote', // Referencing the 'publishNote' model
+    }],
 });
 
+// Hash the password before saving
 UserSchema.pre('save', async function (next) {
     if (!this.isModified('password')) {
         return next();

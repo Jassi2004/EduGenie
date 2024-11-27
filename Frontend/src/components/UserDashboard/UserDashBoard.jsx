@@ -1,89 +1,124 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
-import {
-  Card,
-  CardHeader,
-  CardBody,
-  CardFooter,
-  Button,
-  Spinner
-} from '@nextui-org/react';
-import { useNavigate } from 'react-router-dom';
+import { Button, Card, CardHeader, CardBody } from "@nextui-org/react";
+import { useNavigate } from "react-router-dom"; // Import useNavigate from React Router
+import axios from "axios"; // Import axios
 
-const UserDashboard = () => {
-  const [tests, setTests] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
+const Dashboard = () => {
+  const navigate = useNavigate(); // Initialize navigate function
 
-  useEffect(() => {
-    const fetchTests = async () => {
+  // Function to handle navigation with token in the headers
+  const handleNavigationWithAuth = async (url) => {
+    // Retrieve the auth token from localStorage
+    const token = localStorage.getItem("token");
+    console.log('--------------------------------');
+    console.log('token got when dashboard element is clicked:', token);
+    console.log('--------------------------------');
+
+    if (token) {
       try {
-        const token = localStorage.getItem('token');
-        const response = await axios.get('http://localhost:5000/api/get-user-tests', {
-          headers: { Authorization: `Bearer ${token}` }
+        const response = await axios.get("http://localhost:5000/api/validate-token", {
+          headers: {
+            Authorization: `Bearer ${token}`, // Include the token in the header
+          },
         });
+        console.log('response.status:', response);
 
-        // Log the response to debug
-        console.log("response data:", response.data.tests[0].tests);
-
-        // Ensure response.data.tests is an array
-        if (Array.isArray(response.data.tests[0].tests)) {
-          // Reverse the order of tests
-          const reversedTests = [...response.data.tests[0].tests].reverse();
-          setTests(reversedTests);
+        if (response.status === 200) {
+          // If the token is valid, navigate to the desired page
+          navigate(url);
         } else {
-          console.error('Invalid data format:', response.data);
+          alert("Invalid or expired token. Please log in again.");
+          navigate("/login"); // Redirect to login if token is invalid
         }
       } catch (error) {
-        console.error('Error fetching tests:', error);
-      } finally {
-        setLoading(false);
+        console.error("Error during token validation:", error);
+        alert("An error occurred. Please try again.");
       }
-    };
-
-    fetchTests();
-  }, []);
-
-  const handleTestClick = (testId) => {
-    navigate(`/test-details/${testId}`);
+    } else {
+      alert("You need to log in first!");
+      navigate("/login"); // Redirect to login page if no token found
+    }
   };
 
-  if (loading) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <Spinner size="lg" />
-        <p className="text-xl ml-4">Loading Tests...</p>
-      </div>
-    );
-  }
-
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-6">User Dashboard</h1>
-      {tests.length === 0 ? (
-        <p>No tests found.</p>
-      ) : (
-        tests.map(test => (
-          <Card key={test._id} className="mb-4">
-            <CardHeader>
-              <h4 className="font-bold uppercase">{test.topic}</h4>
-            </CardHeader>
-            <CardBody>
-              <p><strong>Complexity:</strong> {test.complexity}</p>
-              <p><strong>Number of questions:</strong> {test.numberOfQuestions}</p>
-              <p><strong>Score:</strong> {test.score}/{test.numberOfQuestions}</p>
-              <p><strong>Time:</strong> {new Date(test.createdAt).toLocaleString()}</p>
-            </CardBody>
-            <CardFooter>
-              <Button onClick={() => handleTestClick(test._id)} color="primary">
-                View Details
-              </Button>
-            </CardFooter>
-          </Card>
-        ))
-      )}
+    <div className="min-h-screen bg-gray-50 p-8">
+      <div className="container mx-auto mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* Your Tests Button */}
+        <Card
+          isHoverable
+          isPressable
+          variant="bordered"
+          className="moving-gradient h-full flex flex-col justify-between p-4 bg-gradient-to-r from-white via-gray-100 to-gray-200 hover:shadow-lg transition-all duration-300"
+        >
+          <CardHeader className="flex items-center justify-center space-x-2 text-center">
+            <h1 className="font-bold text-4xl">Your Tests</h1>
+          </CardHeader>
+          <p className="text-gray-600 text-center mt-2 mb-4">
+            View and manage your created tests.
+          </p>
+          <CardBody className="flex justify-center">
+            <Button
+              color="primary"
+              variant="ghost"
+              className="hover:bg-blue-600 hover:shadow-md transition-all duration-300"
+              onClick={() => handleNavigationWithAuth("/your-tests")}
+            >
+              View Your Tests
+            </Button>
+          </CardBody>
+        </Card>
+
+        {/* Your Notes Button */}
+        <Card
+          isHoverable
+          isPressable
+          variant="bordered"
+          className="moving-gradient h-full flex flex-col justify-between p-4 bg-gradient-to-r from-white via-gray-100 to-gray-200 hover:shadow-lg transition-all duration-300"
+        >
+          <CardHeader className="flex items-center justify-center space-x-2 text-center">
+            <h1 className="font-bold text-4xl">Your Notes</h1>
+          </CardHeader>
+          <p className="text-gray-600 text-center mt-2 mb-4">
+            View and manage your notes.
+          </p>
+          <CardBody className="flex justify-center">
+            <Button
+              color="primary"
+              variant="ghost"
+              className="hover:bg-blue-600 hover:shadow-md transition-all duration-300"
+              onClick={() => handleNavigationWithAuth("/your-notes")}
+            >
+              View Your Notes
+            </Button>
+          </CardBody>
+        </Card>
+
+        {/* Your Published Notes Button */}
+        <Card
+          isHoverable
+          isPressable
+          variant="bordered"
+          className="moving-gradient h-full flex flex-col justify-between p-4 bg-gradient-to-r from-white via-gray-100 to-gray-200 hover:shadow-lg transition-all duration-300"
+        >
+          <CardHeader className="flex items-center justify-center space-x-2 text-center">
+            <h1 className="font-bold text-4xl">Your Published Notes</h1>
+          </CardHeader>
+          <p className="text-gray-600 text-center mt-2 mb-4">
+            View your published notes that are available for others.
+          </p>
+          <CardBody className="flex justify-center">
+            <Button
+              color="primary"
+              variant="ghost"
+              className="hover:bg-blue-600 hover:shadow-md transition-all duration-300"
+              onClick={() => handleNavigationWithAuth("/your-published-notes")}
+            >
+              View Published Notes
+            </Button>
+          </CardBody>
+        </Card>
+      </div>
     </div>
   );
 };
 
-export default UserDashboard;
+export default Dashboard;

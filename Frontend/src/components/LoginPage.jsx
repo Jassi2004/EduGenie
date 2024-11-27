@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Card, Button, Input, Divider, Link } from "@nextui-org/react";
 import { useNavigate } from "react-router-dom";
 // import {Input} from "@nextui-org/react";
-import {EyeFilledIcon} from "../assets/EyeFilledIcon";
-import {EyeSlashFilledIcon} from "../assets/EyeSlashFilledIcon";
+import { EyeFilledIcon } from "../assets/EyeFilledIcon";
+import { EyeSlashFilledIcon } from "../assets/EyeSlashFilledIcon";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -45,6 +45,13 @@ export default function LoginPage() {
     }
   };
 
+  useEffect(() => {
+    if (localStorage.getItem('token')) navigate('/dashboard')
+
+
+  })
+
+
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <Card
@@ -75,17 +82,7 @@ export default function LoginPage() {
             onChange={(e) => setEmail(e.target.value)}
           />
 
-          {/* Password Input */}
-          {/* <Input
-            isRequired
-            type="password"
-            label="Password"
-            placeholder="Enter your password"
-            className="w-full mb-4"
-            value={password}
-            
-          /> */}
-            <Input
+          <Input
             isRequired
             label="Password"
             variant="bordered"

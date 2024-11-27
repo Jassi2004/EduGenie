@@ -20,8 +20,9 @@ const Navbar = () => {
         const jsonPayload = Buffer.from(base64, "base64").toString("utf8");
         const decoded = JSON.parse(jsonPayload);
 
-        console.log("Decoded: ", decoded);
+        console.log("Decoded: ", decoded.username);
         setUsername(decoded.username);
+        console.log("Decoded: ", decoded.username);
         if (decoded.avatar) {
           setAvatar(decoded.avatar); // Use provided avatar if available
         }
@@ -30,7 +31,7 @@ const Navbar = () => {
         // Handle token decoding errors if necessary
       }
     }
-  }, []);
+  });
 
   const handleLogout = (e) => {
     e.stopPropagation(); // Prevent the click event from bubbling up to the Link
@@ -43,43 +44,48 @@ const Navbar = () => {
   return (
     <nav className="flex justify-between items-center p-4 bg-gray-800 text-white">
       <img src={logo} alt="EduGenie Logo" className="h-10 w-auto" /> {/* Replace text with image */}
-      <Tooltip content="Redirects to Dashboard" placement="bottom">
-        <Link 
-          to="/userDashboard"
-          className="flex items-center space-x-4"
-        >
-          {username ? (
-            <>
-              <img
-                src={avatar} // Display user's avatar or default
-                alt={username}
-                className="h-10 w-10 rounded-full border border-gray-400"
-              />
-              <span>{username}</span>
-              <Button 
-                auto 
+      <div>
+
+
+        {username ? (
+          <>
+            <div className="flex gap-10">
+
+              <Link to="/userDashboard" className="flex items-center space-x-4">
+                <img
+                  src={avatar} // Display user's avatar or default
+                  alt={username}
+                  className="h-10 w-10 rounded-full border border-gray-400"
+                />
+                <span>{username}</span>
+              </Link>
+              <Button
+                auto
                 color="primary"
                 onClick={handleLogout}
                 className="bg-blue-500 hover:bg-blue-700 px-4 py-2 rounded"
               >
                 Logout
               </Button>
-            </>
-          ) : (
-            <>
-              <Button 
-                auto 
+            </div>
+          </>
+        ) : (
+          <>
+            <div>
+
+              <Button
+                auto
                 color="primary"
                 onClick={(e) => {
                   e.stopPropagation(); // Prevent the click event from bubbling up to the Link
                   navigate("/login");
                 }}
-                className="bg-blue-500 hover:bg-blue-700 px-4 py-2 rounded"
+                className="bg-blue-500 hover:bg-blue-700 px-4 py-2 rounded mx-5"
               >
                 Login
               </Button>
-              <Button 
-                auto 
+              <Button
+                auto
                 color="success"
                 onClick={(e) => {
                   e.stopPropagation(); // Prevent the click event from bubbling up to the Link
@@ -89,10 +95,11 @@ const Navbar = () => {
               >
                 Sign Up
               </Button>
-            </>
-          )}
-        </Link>
-      </Tooltip>
+            </div>
+          </>
+        )}
+      </div>
+
     </nav>
   );
 };

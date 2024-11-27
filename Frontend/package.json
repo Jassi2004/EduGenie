@@ -12,11 +12,14 @@
   "dependencies": {
     "@nextui-org/breadcrumbs": "^2.0.12",
     "@nextui-org/card": "^2.0.33",
-    "@nextui-org/react": "^2.4.6",
+    "@nextui-org/react": "^2.4.8",
     "@nextui-org/system": "^2.2.5",
     "@nextui-org/theme": "^2.2.9",
+    "@react-pdf-viewer/core": "^3.12.0",
+    "@react-pdf-viewer/default-layout": "^3.12.0",
     "axios": "^1.7.7",
     "buffer": "^6.0.3",
+    "dotenv": "^16.4.5",
     "framer-motion": "^10.17.0",
     "frontend": "file:",
     "html2canvas": "^1.4.1",
@@ -26,7 +29,10 @@
     "lucide-react": "^0.439.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-router-dom": "^6.26.1"
+    "react-icons": "^5.3.0",
+    "react-pdf": "^9.1.1",
+    "react-router-dom": "^6.26.1",
+    "vite-plugin-react": "^4.0.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.0",

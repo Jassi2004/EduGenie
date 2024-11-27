@@ -7,7 +7,9 @@ import {
   Button,
   Input,
   Progress,
-  Spinner
+  Spinner,
+  AccordionItem,
+  Accordion
 } from "@nextui-org/react";
 
 const FillUpsTestPage = () => {
@@ -21,7 +23,7 @@ const FillUpsTestPage = () => {
     const fetchQuizData = async () => {
       try {
         const response = await axios.get('http://localhost:5000/api/get-test-data');
-        setQuizData(response.data.testData);
+        setQuizData(response.data.data);
         setIsLoading(false);
       } catch (error) {
         console.error('Error fetching quiz data:', error);
@@ -47,7 +49,7 @@ const FillUpsTestPage = () => {
     });
     setScore(currentScore);
     setIsSubmitted(true);
-  
+
     // Save the test results to the backend
     try {
       const response = await axios.patch('http://localhost:5000/api/save-test-results', {
@@ -61,7 +63,7 @@ const FillUpsTestPage = () => {
       console.error('Error saving test results:', error);
     }
   };
-  
+
   const handleRetry = () => {
     window.location.reload();
   };
@@ -81,13 +83,13 @@ const FillUpsTestPage = () => {
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-6">Fill-in-the-Blanks Test</h1>
-      
+
       {isSubmitted && (
         <Card className="mb-6 bg-gradient-to-r from-blue-500 to-purple-500">
           <CardBody>
             <h2 className="text-2xl font-bold text-white mb-2">Your Score: {score} out of {quizData.length}</h2>
-            <Progress 
-              value={(score / quizData.length) * 100} 
+            <Progress
+              value={(score / quizData.length) * 100}
               color="success"
               className="mt-2"
             />
@@ -105,7 +107,17 @@ const FillUpsTestPage = () => {
               <p className="text-tiny uppercase font-bold">Question {index + 1}</p>
               <h4 className="font-bold text-large">{question.question}</h4>
             </CardHeader>
+
             <CardBody className="overflow-visible py-2">
+              <div className='max-w-auto'>
+
+                <Accordion variant="shadow" className='bg-gray-200' fullWidth={false}>
+                  <AccordionItem key="1" aria-label="Hint" title="Hint">
+                    {question.hint}
+                  </AccordionItem>
+                </Accordion>
+              </div>
+
               <Input
                 value={selectedAnswers[question.qId] || ''}
                 onChange={(e) => handleInputChange(question.qId, e.target.value)}
@@ -132,7 +144,7 @@ const FillUpsTestPage = () => {
           </Card>
         );
       })}
-      
+
       {!isSubmitted ? (
         <Button
           color="primary"

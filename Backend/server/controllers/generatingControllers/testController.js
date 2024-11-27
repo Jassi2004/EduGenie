@@ -27,7 +27,7 @@ const generateTest = async (req, res) => {
         if (testType === 'mcq') {
             prompt += ` Provide output in the following JSON format: [{"qId": 1, "question": "This is the question?", "optionA": "This is option A", "optionB": "This is option B", "optionC": "This is option C", "optionD": "This is option D", "answer": "This is the correct answer in text form"}] without any newline characters. Ensure that the "answer" field contains the actual text of the correct option, not its label.`;
         }
-         else if (testType === 'fill-in-the-blanks') {
+        else if (testType === 'fill-in-the-blanks') {
             prompt += ` Provide output in a strict JSON format. Each question should follow this format: 
             [{"qId": 1, "question": "A complete sentence with one or more blanks represented as *****", "answer": "Correct answer for the blank", "hint" : "a small hint related to the answer"}]. 
             Ensure that the "question" field contains a complete sentence with a clearly indicated blank (*****), and the "answer" field provides the correct word or phrase for that blank. Do not include any additional text, explanations, or formatting outside of this JSON structure.`;
@@ -35,14 +35,14 @@ const generateTest = async (req, res) => {
 
         // Generate test using an API or function
         const generatedTest = await geminiFunction(prompt);
-        console.log("generatedTest: ", generatedTest);
-        
+        // console.log("generatedTest: ", generatedTest);
+
         let testString = generatedTest.parts[0].text;
-        console.log("testString 1: ", testString);
-        
+        // console.log("testString 1: ", testString);
+
         testString = testString.replace(/```json|```/g, '').trim();
-        console.log("testString 2: ", testString);
-        
+        // console.log("testString 2: ", testString);
+
         let parsedTest;
         try {
             parsedTest = JSON.parse(testString);
@@ -53,12 +53,9 @@ const generateTest = async (req, res) => {
         // Save JSON to file
         const outputDir = path.join(__dirname, '../../output');
         if (!fs.existsSync(outputDir)) {
-            fs.mkdirSync(outputDir); // Create the output directory if it doesn't exist
+            fs.mkdirSync(outputDir);
         }
         const outputFilePath = path.join(outputDir, 'generatedTest.json');
-        fs.writeFileSync(outputFilePath, JSON.stringify(parsedTest, null, 2)); // Save the JSON data to the file
-        
-        console.log('JSON saved to:', outputFilePath); // Log to confirm the file was saved
 
         const newTestEntry = {
             testType,
@@ -72,12 +69,20 @@ const generateTest = async (req, res) => {
         if (existingUserTests) {
             existingUserTests.tests.push(newTestEntry);
             await existingUserTests.save();
+
+            fs.writeFileSync(outputFilePath, JSON.stringify(parsedTest, null, 2)); // Save the JSON data to the file
+            console.log('JSON saved to:', outputFilePath); // Log to confirm the file was saved
+
             res.json({ message: 'New test added to existing user entry', data: existingUserTests });
         } else {
             const newTestDocument = new Test({
                 userId,
                 tests: [newTestEntry]
             });
+
+            fs.writeFileSync(outputFilePath, JSON.stringify(parsedTest, null, 2)); // Save the JSON data to the file
+            console.log('JSON saved to:', outputFilePath); // Log to confirm the file was saved
+
             await newTestDocument.save();
             res.json({ message: 'New test generated and saved successfully', data: newTestDocument });
         }

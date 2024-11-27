@@ -31,7 +31,7 @@ export default function GenerateTestPage() {
     }
   }, [navigate]);
 
-  const testTypeOptions = ["mcq", "fill-in-the-blanks", "question-answers"];
+  const testTypeOptions = ["mcq", "fill-in-the-blanks"];
   const complexityOptions = ['Baby', 'Beginner', 'Intermediate', 'Advanced'];
 
 
@@ -40,27 +40,36 @@ export default function GenerateTestPage() {
     setLoading(true); // Set loading to true when fetching starts
 
     try {
-      const response = await axios.post(
-        "http://localhost:5000/api/generate-test", // Replace with your backend endpoint
-        { testType:testTypeOptions[testType], topic, numberOfQuestions, complexity:complexityOptions[complexity] },
-        { headers: { Authorization: `Bearer ${token}` } } // Include the token in the Authorization header
+      console.log("Requesting test...");
+      await axios.post(
+        "http://localhost:5000/api/generate-test",
+        {
+          testType: testTypeOptions[testType],
+          topic,
+          numberOfQuestions,
+          complexity: complexityOptions[complexity],
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` }, // Include the token in the Authorization header
+        }
       );
 
-      console.log("Test generated successfully:", response.data);
-      if(testType == 0){
-        navigate("/test-display/mcq", { state: { topic } });
-      } else if(testType == 1){
-        navigate("/test-display/fill-ups");
-      }
+      console.log("Test generation request sent successfully.");
     } catch (error) {
-      console.error(
-        "Error generating test:",
-        error.response ? error.response.data : error.message
-      );
+      console.error("Error generating test:", error.response || error.message);
     } finally {
-      setLoading(false); // Set loading to false when fetching ends
+      setLoading(false); // Stop loading spinner
+      // Redirect after a 2-second delay
+      setTimeout(() => {
+        if (testType == 0) {
+          navigate("/test-display/mcq", { state: { topic } });
+        } else if (testType == 1) {
+          navigate("/test-display/fill-ups");
+        }
+      }, 2000); // Redirect after 2 seconds
     }
   };
+
 
   return (
     <div className="min-h-screen bg-gray-50 p-8">
@@ -123,8 +132,8 @@ export default function GenerateTestPage() {
                   aria-label="Number of questions"
                   className="mb-4"
                 />
-              {/* Complexity Setting */}
-              <h4 className="text-black font-medium text-lg my-2">Complexity:</h4>
+                {/* Complexity Setting */}
+                <h4 className="text-black font-medium text-lg my-2">Complexity:</h4>
                 <Select
                   placeholder="Select complexity type"
                   className="max-w-xs w-full mb-4"

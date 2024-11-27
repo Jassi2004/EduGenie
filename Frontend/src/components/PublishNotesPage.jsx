@@ -1,4 +1,4 @@
-import  { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
   Card,
   CardHeader,
@@ -78,87 +78,87 @@ export default function PublishNotesPage() {
 
   return (
     <div className="min-h-screen bg-gray-50 p-8">
-    <div className="container mx-auto max-w-3xl">
-      <h1 className="text-4xl font-bold text-center mb-8">Generate a New Test</h1>
-    <Card className="max-w-[800px] mx-auto my-6">
-      <CardHeader className="flex gap-3 items-center">
-        <Image
-          alt="Logo"
-          height={40}
-          radius="sm"
-          src="https://avatars.githubusercontent.com/u/86160567?s=200&v=4"
-          width={40}
-        />
-        <div className="flex flex-col">
-          <p className="text-md">EduGenie</p>
-          <p className="text-small text-default-500">Publish Your Notes</p>
-        </div>
-      </CardHeader>
-      <Divider />
-      <CardBody className="flex flex-col gap-4">
-        {/* Topic setting */}
-        <h4 className="text-black font-medium text-2xl mt-2">Topic:</h4>
-        <Input
-          type="text"
-          variant="bordered"
-          placeholder="Enter the topic of your notes"
-          value={topic}
-          onChange={(e) => setTopic(e.target.value)}
-        />
+      <div className="container mx-auto max-w-3xl">
+        <h1 className="text-4xl font-bold text-center mb-8">Generate a New Test</h1>
+        <Card className="max-w-[800px] mx-auto my-6">
+          <CardHeader className="flex gap-3 items-center">
+            <Image
+              alt="Logo"
+              height={40}
+              radius="sm"
+              src="https://avatars.githubusercontent.com/u/86160567?s=200&v=4"
+              width={40}
+            />
+            <div className="flex flex-col">
+              <p className="text-md">EduGenie</p>
+              <p className="text-small text-default-500">Publish Your Notes</p>
+            </div>
+          </CardHeader>
+          <Divider />
+          <CardBody className="flex flex-col gap-4">
+            {/* Topic setting */}
+            <h4 className="text-black font-medium text-2xl mt-2">Topic:</h4>
+            <Input
+              type="text"
+              variant="bordered"
+              placeholder="Enter the topic of your notes"
+              value={topic}
+              onChange={(e) => setTopic(e.target.value)}
+            />
 
-        {/* Description setting */}
-        <h4 className="text-black font-medium text-2xl mt-2">Description:</h4>
-        <Textarea
-          placeholder="Enter a description for your notes"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          rows={4}
-          fullWidth
-        />
+            {/* Description setting */}
+            <h4 className="text-black font-medium text-2xl mt-2">Description:</h4>
+            <Textarea
+              placeholder="Enter a description for your notes"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              rows={4}
+              fullWidth
+            />
 
-        {/* Hashtags setting */}
-        <h4 className="text-black font-medium text-2xl mt-2">Hashtags:</h4>
-        <div>
-          <Input
-            type="text"
-            variant="bordered"
-            placeholder="Enter hashtags and press Enter"
-            onKeyDown={handleHashtagsChange}
-          />
-          <Spacer y={0.5} />
-          <div className="flex flex-wrap gap-2">
-            {hashtags.map((tag, index) => (
-              <Chip key={index} onClose={() => removeHashtag(index)}>
-                {tag}
-              </Chip>
-            ))}
-          </div>
-        </div>
+            {/* Hashtags setting */}
+            <h4 className="text-black font-medium text-2xl mt-2">Hashtags:</h4>
+            <div>
+              <Input
+                type="text"
+                variant="bordered"
+                placeholder="Enter hashtags and press Enter"
+                onKeyDown={handleHashtagsChange}
+              />
+              <Spacer y={0.5} />
+              <div className="flex flex-wrap gap-2">
+                {hashtags.map((tag, index) => (
+                  <Chip key={index} onClose={() => removeHashtag(index)}>
+                    {tag}
+                  </Chip>
+                ))}
+              </div>
+            </div>
 
-        {/* PDF File Upload */}
-        <h4 className="text-black font-medium text-2xl mt-2">Upload PDF:</h4>
-        <Input
-          type="file"
-          accept=".pdf"
-          onChange={handleFileChange}
-          fullWidth
-          variant="bordered"
-        />
-      </CardBody>
-      <Divider />
-      <CardFooter className="flex justify-center">
-        <Button
-          onClick={handlePublishNotes}
-          color="primary"
-          size="lg"
-          variant="ghost"
-        >
-          Publish Notes
-        </Button>
-      </CardFooter>
-    </Card>
+            {/* PDF File Upload */}
+            <h4 className="text-black font-medium text-2xl mt-2">Upload PDF:</h4>
+            <Input
+              type="file"
+              accept=".pdf"
+              onChange={handleFileChange}
+              fullWidth
+              variant="bordered"
+            />
+          </CardBody>
+          <Divider />
+          <CardFooter className="flex justify-center">
+            <Button
+              onClick={handlePublishNotes}
+              color="primary"
+              size="lg"
+              variant="ghost"
+            >
+              Publish Notes
+            </Button>
+          </CardFooter>
+        </Card>
+      </div>
     </div>
-    </div>
-    
+
   );
 }
