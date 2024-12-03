@@ -26,7 +26,7 @@ export const UserProvider = ({ children }) => {
 
                 // Fetch remaining generations from API
                 const response = await axios.get(
-                    "http://localhost:5000/api/get-user-details",
+                    "https://edugenie-1.onrender.com/api/get-user-details",
                     { headers: { Authorization: `Bearer ${token}` } }
                 );
                 console.log("decoded: ", response.data);

@@ -20,7 +20,7 @@ export default function YourPublishedNotes() {
             const token = localStorage.getItem("token");
 
             try {
-                const response = await axios.get("http://localhost:5000/api/published-notes", {
+                const response = await axios.get("https://edugenie-1.onrender.com/api/published-notes", {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
@@ -39,7 +39,7 @@ export default function YourPublishedNotes() {
 
 
     const handleDownload = (filePath) => {
-        const url = `http://localhost:5000/${filePath}`; // Correct URL for download
+        const url = `https://edugenie-1.onrender.com/${filePath}`; // Correct URL for download
         const link = document.createElement("a");
         link.href = url;
         link.download = filePath.split("/").pop();
@@ -87,7 +87,7 @@ export default function YourPublishedNotes() {
                                 <Button auto onClick={() => handleDownload(note.pdfFilePath)}>
                                     Download PDF
                                 </Button>
-                                <Button auto onClick={() => window.open(`http://localhost:5000/${note.pdfFilePath}`, '_blank')}>
+                                <Button auto onClick={() => window.open(`https://edugenie-1.onrender.com/${note.pdfFilePath}`, '_blank')}>
                                     View PDF
                                 </Button>
                             </CardFooter>

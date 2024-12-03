@@ -19,13 +19,13 @@ function Overview() {
         const fetchCounts = async () => {
             try {
                 const token = localStorage.getItem('token');
-                const testResponse = await axios.get('http://localhost:5000/api/get-user-tests', {
+                const testResponse = await axios.get('https://edugenie-1.onrender.com/api/get-user-tests', {
                     headers: { Authorization: `Bearer ${token}` }
                 });
-                const publishedNotesResponse = await axios.get("http://localhost:5000/api/published-notes", {
+                const publishedNotesResponse = await axios.get("https://edugenie-1.onrender.com/api/published-notes", {
                     headers: { Authorization: `Bearer ${token}` },
                 });
-                const notesResponse = await axios.get('http://localhost:5000/api/get-user-notes', {
+                const notesResponse = await axios.get('https://edugenie-1.onrender.com/api/get-user-notes', {
                     headers: { Authorization: `Bearer ${token}` }
                 });
 
@@ -48,7 +48,7 @@ function Overview() {
 
         if (token) {
             try {
-                const response = await axios.get("http://localhost:5000/api/validate-token", {
+                const response = await axios.get("https://edugenie-1.onrender.com/api/validate-token", {
                     headers: { Authorization: `Bearer ${token}` },
                 });
 

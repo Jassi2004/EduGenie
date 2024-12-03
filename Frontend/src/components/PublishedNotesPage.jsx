@@ -24,7 +24,7 @@ function PublishedNotesPage() {
         const fetchNotes = async () => {
             const token = localStorage.getItem("token");
             try {
-                const response = await axios.get("http://localhost:5000/api/get-all-published-notes", {
+                const response = await axios.get("https://edugenie-1.onrender.com/api/get-all-published-notes", {
                     headers: { Authorization: `Bearer ${token}` },
                 });
                 console.log("notes response : ", response.data);
@@ -41,7 +41,7 @@ function PublishedNotesPage() {
     }, []);
 
     const handleDownload = (filePath) => {
-        const url = `http://localhost:5000/${filePath}`;
+        const url = `https://edugenie-1.onrender.com/${filePath}`;
         const link = document.createElement("a");
         link.href = url;
         link.download = filePath.split("/").pop();
@@ -64,7 +64,7 @@ function PublishedNotesPage() {
 
         try {
             await axios.post(
-                `http://localhost:5000/api/${noteId}/${liked ? 'dislike' : 'like'}`,
+                `https://edugenie-1.onrender.com/api/${noteId}/${liked ? 'dislike' : 'like'}`,
                 {},
                 { headers: { Authorization: `Bearer ${token}` } }
             );
@@ -87,7 +87,7 @@ function PublishedNotesPage() {
 
         if (token) {
             try {
-                const response = await axios.get("http://localhost:5000/api/validate-token", {
+                const response = await axios.get("https://edugenie-1.onrender.com/api/validate-token", {
                     headers: { Authorization: `Bearer ${token}` },
                 });
 
@@ -210,7 +210,7 @@ function PublishedNotesPage() {
                             <div className="p-6 space-y-4">
                                 <div className="flex space-x-4">
                                     <Button
-                                        onClick={() => window.open(`http://localhost:5000/${note.pdfFilePath}`, "_blank")}
+                                        onClick={() => window.open(`https://edugenie-1.onrender.com/${note.pdfFilePath}`, "_blank")}
                                         className="
                                             flex-1 
                                             bg-gradient-to-r from-cyan-500 to-blue-600 
