@@ -1,8 +1,202 @@
 [
   {
     "qId": 1,
-    "question": "The command used to list files and directories in Linux is *****.",
-    "answer": "ls",
-    "hint": "This is a very common command."
+    "question": "Which command is used to display the last 10 lines of a log file named 'mylogfile.log'?",
+    "optionA": "cat mylogfile.log | head -10",
+    "optionB": "tail -10 mylogfile.log",
+    "optionC": "head -10 mylogfile.log",
+    "optionD": "less mylogfile.log | head -10",
+    "answer": "B: `tail -10 mylogfile.log`  The `tail` command is specifically designed for viewing the end of a file.",
+    "explanation": " `tail` is optimized for displaying the last lines of a file, making it more efficient than piping `cat` or `less` with `head`."
+  },
+  {
+    "qId": 2,
+    "question": "What does the command `chmod 755 myfile` do?",
+    "optionA": "Gives read, write, and execute permissions to the owner, read and execute permissions to the group, and read permissions to others.",
+    "optionB": "Gives read and execute permissions to the owner, read and write permissions to the group, and read and execute permissions to others.",
+    "optionC": "Gives read, write, and execute permissions to the owner, read and execute permissions to the group, and read and execute permissions to others.",
+    "optionD": "Gives read and execute permissions to the owner, group and others.",
+    "answer": "C: Gives read, write, and execute permissions to the owner, read and execute permissions to the group, and read and execute permissions to others.",
+    "explanation": "755 in octal notation translates to:  7 (owner): read (4) + write (2) + execute (1)  5 (group): read (4) + execute (1)  5 (others): read (4) + execute (1)"
+  },
+  {
+    "qId": 3,
+    "question": "What is the purpose of the `ulimit` command?",
+    "optionA": "To set limits on the number of processes a user can run.",
+    "optionB": "To set limits on the amount of memory a user can use.",
+    "optionC": "To set limits on the size of files a user can create.",
+    "optionD": "All of the above.",
+    "answer": "D: All of the above.",
+    "explanation": "The `ulimit` command allows setting various resource limits, including process limits, memory usage, file sizes, and more."
+  },
+  {
+    "qId": 4,
+    "question": "Which command is used to find files recursively within a directory?",
+    "optionA": "find",
+    "optionB": "locate",
+    "optionC": "grep",
+    "optionD": "which",
+    "answer": "A: find",
+    "explanation": "The `find` command is specifically designed for searching files and directories recursively based on various criteria."
+  },
+  {
+    "qId": 5,
+    "question": "How can you redirect the standard error (stderr) to a file?",
+    "optionA": "command 2> error.log",
+    "optionB": "command 1> error.log",
+    "optionC": "command > error.log",
+    "optionD": "command &> error.log",
+    "answer": "A: command 2> error.log",
+    "explanation": "2> redirects stderr, 1> redirects stdout, > redirects both stdout and stderr (overwriting), &> redirects both stdout and stderr (appending)"
+  },
+  {
+    "qId": 6,
+    "question": "What does the `$?` variable represent in a shell script?",
+    "optionA": "The last command's exit status.",
+    "optionB": "The current user's ID.",
+    "optionC": "The current process ID.",
+    "optionD": "The current working directory.",
+    "answer": "A: The last command's exit status.",
+    "explanation": "Exit status 0 usually indicates success, while non-zero values indicate errors."
+  },
+  {
+    "qId": 7,
+    "question": "Which command is used to display the system load average?",
+    "optionA": "top",
+    "optionB": "uptime",
+    "optionC": "ps",
+    "optionD": "free",
+    "answer": "B: uptime",
+    "explanation": "The `uptime` command shows the load average along with other system information."
+  },
+  {
+    "qId": 8,
+    "question": "What does `crontab -e` do?",
+    "optionA": "Lists running processes.",
+    "optionB": "Edits the user's crontab file.",
+    "optionC": "Creates a new user account.",
+    "optionD": "Changes the system time.",
+    "answer": "B: Edits the user's crontab file.",
+    "explanation": "Crontab is used for scheduling tasks."
+  },
+  {
+    "qId": 9,
+    "question": "What is the purpose of the `/etc/fstab` file?",
+    "optionA": "Contains user account information.",
+    "optionB": "Defines file system mount points.",
+    "optionC": "Lists installed packages.",
+    "optionD": "Stores network configuration.",
+    "answer": "B: Defines file system mount points.",
+    "explanation": "It specifies how and where filesystems should be mounted during boot."
+  },
+  {
+    "qId": 10,
+    "question": "Which command is used to create a symbolic link?",
+    "optionA": "ln -s",
+    "optionB": "cp -r",
+    "optionC": "mkdir",
+    "optionD": "rm -rf",
+    "answer": "A: ln -s",
+    "explanation": "`ln -s` creates a symbolic link (symlink)."
+  },
+  {
+    "qId": 11,
+    "question": "What does `awk '{print $1}' myfile.txt` do?",
+    "optionA": "Prints the entire contents of myfile.txt",
+    "optionB": "Prints the first field of each line in myfile.txt",
+    "optionC": "Prints the last line of myfile.txt",
+    "optionD": "Prints the number of lines in myfile.txt",
+    "answer": "B: Prints the first field of each line in myfile.txt",
+    "explanation": "Awk uses whitespace as the default field separator."
+  },
+  {
+    "qId": 12,
+    "question": "What is the function of the `grep` command with the `-i` option?",
+    "optionA": "Performs a case-sensitive search",
+    "optionB": "Performs a case-insensitive search",
+    "optionC": "Prints only matching lines",
+    "optionD": "Searches recursively",
+    "answer": "B: Performs a case-insensitive search",
+    "explanation": "The `-i` option in `grep` ignores case during the search."
+  },
+  {
+    "qId": 13,
+    "question": "What command displays detailed process information, similar to `top` but in a snapshot?",
+    "optionA": "ps aux",
+    "optionB": "killall",
+    "optionC": "lsof",
+    "optionD": "df -h",
+    "answer": "A: ps aux",
+    "explanation": "`ps aux` provides a comprehensive list of running processes."
+  },
+  {
+    "qId": 14,
+    "question": "What does the command `du -sh` do?",
+    "optionA": "Displays disk usage of current directory.",
+    "optionB": "Displays disk usage of current directory in human readable format.",
+    "optionC": "Displays disk usage of all subdirectories.",
+    "optionD": "Displays disk usage of all files within current directory.",
+    "answer": "B: Displays disk usage of the current directory in a human-readable format.",
+    "explanation": "`du -sh` combines the summary option (`-s`) with human-readable output (`-h`)."
+  },
+  {
+    "qId": 15,
+    "question": "How do you kill a process with PID 1234?",
+    "optionA": "kill 1234",
+    "optionB": "killall 1234",
+    "optionC": "pkill 1234",
+    "optionD": "rm 1234",
+    "answer": "A: kill 1234",
+    "explanation": "`kill` command takes the PID as an argument."
+  },
+  {
+    "qId": 16,
+    "question": "What is the purpose of `/proc` directory?",
+    "optionA": "Contains user accounts",
+    "optionB": "Contains system configuration files",
+    "optionC": "Provides a virtual interface to kernel processes",
+    "optionD": "Contains network configuration",
+    "answer": "C: Provides a virtual interface to kernel processes",
+    "explanation": "The `/proc` filesystem provides information about running processes and the kernel itself."
+  },
+  {
+    "qId": 17,
+    "question": "What does the command `iptables -A INPUT -p tcp --dport 80 -j ACCEPT` do?",
+    "optionA": "Blocks all incoming TCP traffic on port 80.",
+    "optionB": "Allows all incoming TCP traffic on port 80.",
+    "optionC": "Forwards all incoming TCP traffic on port 80.",
+    "optionD": "Drops all incoming UDP traffic on port 80.",
+    "answer": "B: Allows all incoming TCP traffic on port 80.",
+    "explanation": "It adds a rule to the INPUT chain to accept TCP traffic on port 80."
+  },
+  {
+    "qId": 18,
+    "question": "Which command is used to check the integrity of the system?",
+    "optionA": "ls -l",
+    "optionB": "rpm -qa",
+    "optionC": "chkconfig",
+    "optionD": "tripwire",
+    "answer": "D: tripwire",
+    "explanation": "Tripwire is a system integrity checking tool."
+  },
+  {
+    "qId": 19,
+    "question": "What is a hard link?",
+    "optionA": "A symbolic link to a directory.",
+    "optionB": "Multiple file names pointing to the same inode.",
+    "optionC": "A copy of a file.",
+    "optionD": "A shortcut to a file.",
+    "answer": "B: Multiple file names pointing to the same inode.",
+    "explanation": "Hard links share the same inode, so deleting one doesn't affect the others until the last link is removed."
+  },
+  {
+    "qId": 20,
+    "question": "What command is used to view the contents of a compressed tar archive (e.g., myarchive.tar.gz)?",
+    "optionA": "tar -xvf myarchive.tar.gz",
+    "optionB": "gzip -d myarchive.tar.gz",
+    "optionC": "tar -tvf myarchive.tar.gz",
+    "optionD": "unzip myarchive.tar.gz",
+    "answer": "C: tar -tvf myarchive.tar.gz",
+    "explanation": " `tar -tvf` lists the contents without extracting. `-t` lists, `-v` verbose, `-f` specifies the file."
   }
 ]

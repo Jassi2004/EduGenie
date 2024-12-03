@@ -22,6 +22,19 @@ app.use(cors({
     credentials: true // Allow credentials such as cookies
 }));
 
+const Razorpay = require('razorpay');
+
+// This razorpayInstance will be used to
+// access any resource from razorpay
+const razorpayInstance = new Razorpay({
+    // Replace with your key_id
+    key_id: process.env.key_id,
+
+    // Replace with your key_secret
+    key_secret: process.env.key_secret
+});
+
+
 // Routes setup
 const userRoutes = require('./routes/userRoutes');
 app.use('/api', userRoutes);
@@ -49,6 +62,9 @@ app.use('/api', getUserTests);
 
 const testRoutes = require('./routes/getTestDetailRoute');
 app.use('/api', testRoutes);
+
+const paymentRoutes = require('./routes/paymentRoutes');
+app.use('/api', paymentRoutes);
 
 // Start the server
 const PORT = process.env.PORT || 5000;

@@ -13,7 +13,7 @@ export default function YourPublishedNotes() {
     const [notes, setNotes] = useState([]);
     const [loading, setLoading] = useState(true); // Loading state
     const [error, setError] = useState("");
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
     useEffect(() => {
         const fetchPublishedNotes = async () => {

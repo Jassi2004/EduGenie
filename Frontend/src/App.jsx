@@ -17,45 +17,58 @@ import PublishedNotesPage from "./components/PublishedNotesPage";
 import YourTest from "./components/UserDashboard/YourTest";
 import YourNotes from "./components/UserDashboard/YourNotes";
 import YourPublishedNotes from "./components/UserDashboard/YourPublishedNotes";
+import EmptyPage from "./components/EmptyPage";
+import SplashScreen from "./components/SplashScreen";
+import PaymentsPage from "./components/PaymentsPage";
+import { UserProvider } from './contexts/UserContext';
+
 
 // Import other components as needed
 
 
 const App = () => {
     return (
-        <Router>
-            <Routes>
+        <UserProvider>
 
-                <Route path="/" element={<MainLayout />}>
-                    <Route path="/dashboard" element={<DashboardPage />} />
-                    <Route path="/publish-notes" element={<PublishNotesPage />} />
-                    <Route path="/published-notes" element={<PublishedNotesPage />} />
-                    <Route path="/generate-notes" element={<GenerateNotesPage />} />
-                    <Route path="/notes-reading" element={<NotesReadingPage />} />
+            <Router>
+                <Routes>
 
-                    <Route path="/generate-test" element={<GenerateTestPage />} />
-                    <Route path="/test-display/mcq" element={<McqTestDisplay />} />
-                    <Route path="/test-display/fill-ups" element={<FillUpsTestPage />} />
+                    <Route path="/" element={<MainLayout />}>
+                        <Route path="/" element={<EmptyPage />} />
+                        <Route path="/dashboard" element={<><SplashScreen /><DashboardPage /></>} />
+                        {/* <Route path="/dashboard" element={<><DashboardPage /></>} /> */}
+                        <Route path="/publish-notes" element={<PublishNotesPage />} />
+                        <Route path="/published-notes" element={<PublishedNotesPage />} />
+                        <Route path="/generate-notes" element={<GenerateNotesPage />} />
+                        <Route path="/notes-reading" element={<NotesReadingPage />} />
 
-                    <Route path="/userDashboard" element={<UserDashboard />} />
-                    <Route path="/test-details/:testId" element={<TestDetails />} />
+                        <Route path="/generate-test" element={<GenerateTestPage />} />
+                        <Route path="/test-display/mcq" element={<McqTestDisplay />} />
+                        <Route path="/test-display/fill-ups" element={<FillUpsTestPage />} />
 
-
-                    <Route path="/your-tests" element={<YourTest />} />
-                    <Route path="/your-notes" element={<YourNotes />} />
-                    <Route path="/your-published-notes" element={<YourPublishedNotes />} />
-
-
-                </Route>
+                        <Route path="/userDashboard" element={<UserDashboard />} />
+                        <Route path="/test-details/:testId" element={<TestDetails />} />
 
 
-                {/* Routes without MainLayout */}
-                <Route path="/login" element={<LoginPage />} />
-                <Route path="/register" element={<RegisterPage />} />
+                        <Route path="/your-tests" element={<YourTest />} />
+                        <Route path="/your-notes" element={<YourNotes />} />
+                        <Route path="/your-published-notes" element={<YourPublishedNotes />} />
 
 
-            </Routes>
-        </Router>
+                        <Route path="/payments" element={<PaymentsPage />} />
+
+
+                    </Route>
+
+
+                    {/* Routes without MainLayout */}
+                    <Route path="/login" element={<LoginPage />} />
+                    <Route path="/register" element={<RegisterPage />} />
+
+
+                </Routes>
+            </Router>
+        </UserProvider>
     );
 };
 

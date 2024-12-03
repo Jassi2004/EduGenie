@@ -12,7 +12,7 @@ const MainLayout = () => {
     return (
         <div>
             {showNavbar && <Navbar />}
-            <main className="p-4">
+            <main className="p-14">
                 <Outlet />
             </main>
         </div>

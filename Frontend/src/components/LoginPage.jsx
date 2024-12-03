@@ -33,7 +33,10 @@ export default function LoginPage() {
       });
       // Handle successful login, e.g., navigate to another page or show a success message
       const token = response.data.token; // Adjust according to your backend response
-      localStorage.setItem("token", token);
+      const userId = response.data.user.id; // Get userId from response
+      localStorage.setItem("token", token); // Store token in localStorage
+      localStorage.setItem("userId", userId); // Store userId in localStorage
+
       // console.log(response.data);
       navigate("/dashboard"); // Example redirection on successful login
     } catch (err) {

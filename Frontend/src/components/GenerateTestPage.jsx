@@ -13,8 +13,12 @@ import {
 } from "@nextui-org/react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useUser } from '../contexts/UserContext';
+
 
 export default function GenerateTestPage() {
+  const { updateGenerationsLeft } = useUser();
+
   const [testType, setTestType] = useState("");
   const [topic, setTopic] = useState("");
   const [complexity, setComplexity] = useState("");
@@ -36,12 +40,12 @@ export default function GenerateTestPage() {
 
 
   const handleGenerateTest = async () => {
-    const token = localStorage.getItem("token"); // Retrieve the auth token from localStorage
-    setLoading(true); // Set loading to true when fetching starts
+
+    const token = localStorage.getItem("token"); // Retrieve the auth token
+    setLoading(true); // Start loading spinner
 
     try {
-      console.log("Requesting test...");
-      await axios.post(
+      const response = await axios.post(
         "http://localhost:5000/api/generate-test",
         {
           testType: testTypeOptions[testType],
@@ -50,16 +54,21 @@ export default function GenerateTestPage() {
           complexity: complexityOptions[complexity],
         },
         {
-          headers: { Authorization: `Bearer ${token}` }, // Include the token in the Authorization header
+          headers: { Authorization: `Bearer ${token}` }, // Include token in the header
         }
       );
 
-      console.log("Test generation request sent successfully.");
+      console.log("Test generated successfully.");
+      // const updatedGenerationsLeft = response.data.generationsLeft;
+
+      // Update Navbar state via custom event or context
+      updateGenerationsLeft(response.data.generationsLeft);
+
+      // window.dispatchEvent(updateGenerationsEvent);
     } catch (error) {
       console.error("Error generating test:", error.response || error.message);
     } finally {
       setLoading(false); // Stop loading spinner
-      // Redirect after a 2-second delay
       setTimeout(() => {
         if (testType == 0) {
           navigate("/test-display/mcq", { state: { topic } });
@@ -69,6 +78,7 @@ export default function GenerateTestPage() {
       }, 2000); // Redirect after 2 seconds
     }
   };
+
 
 
   return (

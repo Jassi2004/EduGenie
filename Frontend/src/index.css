@@ -3,20 +3,116 @@
 @tailwind utilities;
 
 @keyframes gradientShift {
-    0% {
-      background-position: 0% 0%;
-    }
-    80% {
-      background-position: 100% 100%;
-    }
-    100%{
-      background-position: 0% 0%;
-    }
+  0% {
+    background-position: 0% 0%;
   }
-  
-  .moving-gradient {
-    background: linear-gradient(45deg, #f3f4f6, #9ec9f1);
-    background-size: 200% 200%;
-    animation: gradientShift 5s ease infinite;
+
+  80% {
+    background-position: 100% 100%;
   }
-  
+
+  100% {
+    background-position: 0% 0%;
+  }
+}
+
+.moving-gradient {
+  background: linear-gradient(45deg, #f3f4f6, #9ec9f1);
+  background-size: 200% 200%;
+  animation: gradientShift 5s ease infinite;
+}
+
+
+/* Splash screen container */
+.splash-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #adcff6, #5fc3fd);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  overflow: hidden;
+}
+
+/* Lamp image styling - Move the lamp down by adjusting bottom */
+.lamp-container {
+  position: absolute;
+  bottom: 100px;
+  /* Increase this value to move the lamp lower */
+  animation: riseUp 1.5s ease-out;
+}
+
+.lamp-image {
+  width: 400px;
+  height: auto;
+}
+
+/* Genie image - Move the genie down by adjusting bottom */
+.genie-image {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%) scaleX(-1);
+  width: 400px;
+  /* Adjust based on your genie image */
+  height: auto;
+  animation: genieRise 1.5s ease-out forwards;
+  /* Genie rises from the lamp */
+}
+
+
+/* Keyframes for animations */
+@keyframes genieRise {
+  from {
+    transform: translateX(-50%) translateY(0);
+  }
+
+  to {
+    transform: translateX(-50%) translateY(-100px);
+    /* Genie rises by 100px */
+  }
+}
+
+
+@keyframes riseUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Add this CSS to your global styles or component-level CSS */
+@keyframes pop-up {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.pop-up {
+  animation: pop-up 0.6s ease-out;
+  animation-delay: 1.5s;
+  /* Delay the pop-up animation by 1.5 seconds */
+}
+
+
+.pop-up-2 {
+  animation: pop-up 0.6s ease-out;
+  /* animation-delay: 1.5s; */
+  /* Delay the pop-up animation by 1.5 seconds */
+}

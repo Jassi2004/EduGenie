@@ -83,16 +83,6 @@ export default function GenerateNotesPage() {
                 {/* Spinner example */}
                 <Spinner size="lg" />
                 <p className="text-xl">Generating Notes.. Please Wait..</p>
-                {/* <BookLoaderComponent /> */}
-
-                {/* Progress bar example */}
-                {/* <Progress
-                  aria-label="Generating Notes..."
-                  size="md"
-                  color="success"
-                  indeterminate
-                  className="max-w-md"
-                /> */}
               </div>
             ) : (
               <>

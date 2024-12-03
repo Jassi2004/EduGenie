@@ -49,7 +49,7 @@ const getPublishedNotes = async (req, res) => {
         // Retrieve all notes published by the user
         const notes = await publishNote.find({ userId }).select('topic description hashtags pdfFilePath createdAt'); // You can select specific fields as needed
 
-        if (!notes || notes.length === 0) {
+        if (!notes) {
             return res.status(404).json({ message: "No notes found for this user." });
         }
 
@@ -89,7 +89,7 @@ const likeNote = async (req, res) => {
     const { noteId } = req.params;
 
     try {
-        const note = await PublishNote.findById(noteId);
+        const note = await publishNote.findById(noteId);
         if (!note) {
             return res.status(404).json({ error: 'Note not found' });
         }
@@ -108,7 +108,7 @@ const dislikeNote = async (req, res) => {
     const { noteId } = req.params;
 
     try {
-        const note = await PublishNote.findById(noteId);
+        const note = await publishNote.findById(noteId);
         if (!note) {
             return res.status(404).json({ error: 'Note not found' });
         }
