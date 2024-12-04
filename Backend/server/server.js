@@ -18,7 +18,11 @@ app.use('/uploads', express.static('uploads')); // This tells Express to serve f
 const corsOptions = {
     origin: [
         //'http://localhost:5173', // Development
-        'https://edu-genie-ivory.vercel.app' // Production
+        // 'https://edu-genie-ivory.vercel.app' // Production
+        'https://edu-genie-theta.vercel.app',
+        'https://edu-genie-jaskirat-singhs-projects-211a0a66.vercel.app',
+        'https://edu-genie-git-main-jaskirat-singhs-projects-211a0a66.vercel.app'
+
     ],
     methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed HTTP methods
     credentials: true // Allow credentials such as cookies
@@ -70,6 +74,8 @@ app.use('/api', testRoutes);
 
 const paymentRoutes = require('./routes/paymentRoutes');
 app.use('/api', paymentRoutes);
+
+
 
 // Start the server
 const PORT = process.env.PORT || 5000;
