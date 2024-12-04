@@ -22,7 +22,7 @@ const FillUpsTestPage = () => {
   useEffect(() => {
     const fetchQuizData = async () => {
       try {
-        const response = await axios.get('https://edugenie-1.onrender.com/api/get-test-data');
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/get-test-data`);
         setQuizData(response.data.data);
         setIsLoading(false);
       } catch (error) {
@@ -52,7 +52,7 @@ const FillUpsTestPage = () => {
 
     // Save the test results to the backend
     try {
-      const response = await axios.patch('https://edugenie-1.onrender.com/api/save-test-results', {
+      const response = await axios.patch(`${import.meta.env.VITE_BACKEND_URL}/api/save-test-results`, {
         score: currentScore,
         timestamp: new Date().toISOString(),
         testType: 'fill-in-the-blanks', // Make sure this matches the test type used

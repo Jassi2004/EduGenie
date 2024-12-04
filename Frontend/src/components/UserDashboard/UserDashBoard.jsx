@@ -30,18 +30,18 @@ function UserDashBoard() {
         const token = localStorage.getItem('token');
 
         // Fetch user details
-        const userResponse = await axios.get('http://localhost:5000/api/get-user-details', {
+        const userResponse = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/get-user-details`, {
           headers: { Authorization: `Bearer ${token}` }
         });
 
         // Fetch counts
-        const testResponse = await axios.get('http://localhost:5000/api/get-user-tests', {
+        const testResponse = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/get-user-tests`, {
           headers: { Authorization: `Bearer ${token}` }
         });
-        const publishedNotesResponse = await axios.get("http://localhost:5000/api/published-notes", {
+        const publishedNotesResponse = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/published-notes`, {
           headers: { Authorization: `Bearer ${token}` },
         });
-        const notesResponse = await axios.get('http://localhost:5000/api/get-user-notes', {
+        const notesResponse = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/get-user-notes`, {
           headers: { Authorization: `Bearer ${token}` }
         });
 
@@ -67,7 +67,7 @@ function UserDashBoard() {
 
     if (token) {
       try {
-        const response = await axios.get("http://localhost:5000/api/validate-token", {
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/validate-token`, {
           headers: { Authorization: `Bearer ${token}` },
         });
 
@@ -90,7 +90,7 @@ function UserDashBoard() {
   const handleUpdateProfile = async () => {
     try {
       const token = localStorage.getItem('token');
-      await axios.put('http://localhost:5000/api/update-profile', editedUser, {
+      await axios.put(`${import.meta.env.VITE_BACKEND_URL}/api/update-profile`, editedUser, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setUserDetails(editedUser);
@@ -110,7 +110,7 @@ function UserDashBoard() {
 
       try {
         const token = localStorage.getItem('token');
-        const response = await axios.post('http://localhost:5000/api/upload-avatar', formData, {
+        const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/upload-avatar`, formData, {
           headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'multipart/form-data'

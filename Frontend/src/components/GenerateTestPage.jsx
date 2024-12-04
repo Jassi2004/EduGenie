@@ -46,7 +46,7 @@ export default function GenerateTestPage() {
 
     try {
       const response = await axios.post(
-        "https://edugenie-1.onrender.com/api/generate-test",
+        `${import.meta.env.VITE_BACKEND_URL}/api/generate-test`,
         {
           testType: testTypeOptions[testType],
           topic,

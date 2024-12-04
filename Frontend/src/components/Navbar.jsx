@@ -38,7 +38,7 @@ const FuturisticNavbar = () => {
   const handleLogout = async () => {
     try {
       await axios.post(
-        "https://edugenie-1.onrender.com/api/logout",
+        `${import.meta.env.VITE_BACKEND_URL}/api/logout`,
         {},
         { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
       );

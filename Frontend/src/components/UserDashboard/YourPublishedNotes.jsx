@@ -20,7 +20,7 @@ export default function YourPublishedNotes() {
             const token = localStorage.getItem("token");
 
             try {
-                const response = await axios.get("https://edugenie-1.onrender.com/api/published-notes", {
+                const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/published-notes`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },

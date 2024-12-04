@@ -122,7 +122,7 @@ const PaymentsPage = () => {
 
         // Call the backend to create the Razorpay order
         try {
-            const response = await fetch('https://edugenie-1.onrender.com/api/create-order', {
+            const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/create-order`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -145,7 +145,7 @@ const PaymentsPage = () => {
                     order_id: data.orderId, // Order ID from backend
                     handler: function (response) {
                         // Payment successful, send payment details to backend to update user plan
-                        fetch('https://edugenie-1.onrender.com/api/payment-success', {
+                        fetch(`${import.meta.env.VITE_BACKEND_URL}/api/payment-success`, {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',

@@ -9,12 +9,12 @@ import QuestionCard from './QuestionCard'; // Extracted component for rendering 
 import ScoreCard from './ScoreCard'; // Extracted component for score display
 
 const fetchQuizData = async () => {
-  const response = await axios.get(`https://edugenie-1.onrender.com/api/get-test-data`);
+  const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/get-test-data`);
   return response.data.data;
 };
 
 const updateTestResults = async (data) => {
-  const response = await axios.patch(`https://edugenie-1.onrender.com/api/save-test-results`, data, {
+  const response = await axios.patch(`${import.meta.env.VITE_BACKEND_URL}/api/save-test-results`, data, {
     headers: {
       Authorization: `Bearer ${localStorage.getItem('token')}`,
       'Content-Type': 'application/json',

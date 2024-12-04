@@ -19,7 +19,7 @@ function YourTest() {
         const fetchTests = async () => {
             try {
                 const token = localStorage.getItem('token');
-                const response = await axios.get('https://edugenie-1.onrender.com/api/get-user-tests', {
+                const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/get-user-tests`, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
 

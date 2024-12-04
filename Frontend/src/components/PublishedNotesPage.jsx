@@ -24,7 +24,7 @@ function PublishedNotesPage() {
         const fetchNotes = async () => {
             const token = localStorage.getItem("token");
             try {
-                const response = await axios.get("https://edugenie-1.onrender.com/api/get-all-published-notes", {
+                const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/get-all-published-notes`, {
                     headers: { Authorization: `Bearer ${token}` },
                 });
                 console.log("notes response : ", response.data);
@@ -41,7 +41,7 @@ function PublishedNotesPage() {
     }, []);
 
     const handleDownload = (filePath) => {
-        const url = `https://edugenie-1.onrender.com/${filePath}`;
+        const url = `${import.meta.env.VITE_BACKEND_URL}/${filePath}`;
         const link = document.createElement("a");
         link.href = url;
         link.download = filePath.split("/").pop();
@@ -64,7 +64,7 @@ function PublishedNotesPage() {
 
         try {
             await axios.post(
-                `https://edugenie-1.onrender.com/api/${noteId}/${liked ? 'dislike' : 'like'}`,
+                `${import.meta.env.VITE_BACKEND_URL}/api/${noteId}/${liked ? 'dislike' : 'like'}`,
                 {},
                 { headers: { Authorization: `Bearer ${token}` } }
             );
@@ -87,7 +87,7 @@ function PublishedNotesPage() {
 
         if (token) {
             try {
-                const response = await axios.get("https://edugenie-1.onrender.com/api/validate-token", {
+                const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/validate-token`, {
                     headers: { Authorization: `Bearer ${token}` },
                 });
 

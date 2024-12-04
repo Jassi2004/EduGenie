@@ -39,7 +39,7 @@ export default function GenerateNotesPage() {
     const token = localStorage.getItem('token');
     setLoading(true); // Set loading to true when fetching starts
     try {
-      const response = await fetch("/api/generate-notes", {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/generate-notes`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

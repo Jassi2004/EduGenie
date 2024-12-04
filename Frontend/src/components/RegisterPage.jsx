@@ -25,7 +25,7 @@ export default function RegisterPage() {
         }
 
         try {
-            const response = await axios.post("/api/register", {
+            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/register`, {
                 username,
                 email,
                 password

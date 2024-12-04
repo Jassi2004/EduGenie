@@ -14,7 +14,7 @@ const TestDetails = () => {
     const fetchTestDetails = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await axios.get(`http://localhost:5000/api/test-details/${testId}`, {
+        const response = await axios.get(`https://edugenie-1.onrender.com/api/test-details/${testId}`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         setTest(response.data.test);

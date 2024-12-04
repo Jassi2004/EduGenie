@@ -41,7 +41,7 @@ export default function PublishNotesPage() {
 
     try {
       const response = await axios.post(
-        "https://edugenie-1.onrender.com/api/publish-notes",
+        `${import.meta.env.VITE_BACKEND_URL}/api/publish-notes`,
         formData,
         {
           headers: {

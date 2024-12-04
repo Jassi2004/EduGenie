@@ -224,7 +224,7 @@ const Dashboard = () => {
     if (!token) return;
 
     try {
-      const response = await axios.get("https://edugenie-1.onrender.com/api/get-user-details", {
+      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}api/get-user-details`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -243,7 +243,7 @@ const Dashboard = () => {
 
     if (token) {
       try {
-        const response = await axios.get("https://edugenie-1.onrender.com/api/validate-token", {
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/validate-token`, {
           headers: { Authorization: `Bearer ${token}` },
         });
 

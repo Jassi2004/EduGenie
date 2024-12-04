@@ -27,7 +27,7 @@ export default function LoginPage() {
     setError("");
 
     try {
-      const response = await axios.post("/api/login", {
+      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/login`, {
         email,
         password,
       });
