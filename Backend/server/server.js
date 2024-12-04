@@ -15,12 +15,17 @@ app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
 app.use('/uploads', express.static('uploads')); // This tells Express to serve files from the "uploads" directory
 
 // Middleware
-app.use(cors()); // Enable CORS
-app.use(cors({
-    origin: 'http://localhost:5173', // Frontend URL
+const corsOptions = {
+    origin: [
+        'http://localhost:5173', // Development
+        'https://edu-genie-ivory.vercel.app' // Production
+    ],
     methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed HTTP methods
     credentials: true // Allow credentials such as cookies
-}));
+};
+
+app.use(cors(corsOptions));
+
 
 const Razorpay = require('razorpay');
 
