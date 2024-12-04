@@ -27,10 +27,15 @@ export default function LoginPage() {
     setError("");
 
     try {
-      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/login`, {
-        email,
-        password,
-      });
+      const response = await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/api/login`,
+        { email, password },
+        {
+          headers: { 'Content-Type': 'application/json' },
+          withCredentials: true, // Required for cookies/auth headers
+        }
+      );
+
       // Handle successful login, e.g., navigate to another page or show a success message
       const token = response.data.token; // Adjust according to your backend response
       const userId = response.data.user.id; // Get userId from response
