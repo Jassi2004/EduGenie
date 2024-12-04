@@ -30,6 +30,18 @@ app.use(cors(corsOptions));
 app.options('*', cors(corsOptions)); // Explicitly handle preflight requests
 
 
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', 'https://edu-genie-theta.vercel.app');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    res.header('Access-Control-Allow-Credentials', 'true');
+    if (req.method === 'OPTIONS') {
+        return res.sendStatus(200);
+    }
+    next();
+});
+
+
 
 const Razorpay = require('razorpay');
 
@@ -74,6 +86,7 @@ app.use('/api', testRoutes);
 
 const paymentRoutes = require('./routes/paymentRoutes');
 app.use('/api', paymentRoutes);
+
 
 
 
