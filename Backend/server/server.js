@@ -17,7 +17,7 @@ app.use('/uploads', express.static('uploads')); // This tells Express to serve f
 // Middleware
 const corsOptions = {
     origin: [
-        'http://localhost:5173', // Development
+        //'http://localhost:5173', // Development
         'https://edu-genie-ivory.vercel.app' // Production
     ],
     methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed HTTP methods
