@@ -11,6 +11,7 @@ import {
 import { LogOut, User, Home, Zap, CreditCard } from "lucide-react";
 import { useUser } from '../contexts/UserContext';
 import axios from "axios";
+import api from "../../axiosConfig";
 
 const FuturisticNavbar = () => {
   const {
@@ -37,7 +38,7 @@ const FuturisticNavbar = () => {
 
   const handleLogout = async () => {
     try {
-      await axios.post(
+      await api.post(
         `${import.meta.env.VITE_BACKEND_URL}/api/logout`,
         {},
         { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }

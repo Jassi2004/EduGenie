@@ -14,6 +14,7 @@ import {
 } from "@nextui-org/react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import api from "../../axiosConfig";
 
 export default function PublishNotesPage() {
   const [topic, setTopic] = useState("");
@@ -40,7 +41,7 @@ export default function PublishNotesPage() {
     formData.append("pdfFile", pdfFile);
 
     try {
-      const response = await axios.post(
+      const response = await api.post(
         `${import.meta.env.VITE_BACKEND_URL}/api/publish-notes`,
         formData,
         {

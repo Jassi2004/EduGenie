@@ -2,6 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import { Card, Button, Input, Divider } from "@nextui-org/react";
 import { useNavigate } from "react-router-dom";
+import api from "../../axiosConfig";
 
 export default function RegisterPage() {
     const [username, setUsername] = useState(""); // New state for username
@@ -25,7 +26,7 @@ export default function RegisterPage() {
         }
 
         try {
-            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/register`, {
+            const response = await api.post(`${import.meta.env.VITE_BACKEND_URL}/api/register`, {
                 username,
                 email,
                 password

@@ -14,6 +14,7 @@ import {
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useUser } from '../contexts/UserContext';
+import api from "../../axiosConfig";
 
 
 export default function GenerateTestPage() {
@@ -45,7 +46,7 @@ export default function GenerateTestPage() {
     setLoading(true); // Start loading spinner
 
     try {
-      const response = await axios.post(
+      const response = await api.post(
         `${import.meta.env.VITE_BACKEND_URL}/api/generate-test`,
         {
           testType: testTypeOptions[testType],

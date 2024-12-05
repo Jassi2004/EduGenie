@@ -1,6 +1,7 @@
 import { createContext, useState, useContext, useEffect } from 'react';
 import { Buffer } from "buffer";
 import axios from 'axios';
+import api from '../../axiosConfig';
 
 export const UserContext = createContext(null);
 
@@ -25,7 +26,7 @@ export const UserProvider = ({ children }) => {
                 const decoded = JSON.parse(jsonPayload);
 
                 // Fetch remaining generations from API
-                const response = await axios.get(
+                const response = await api.get(
                     `${import.meta.env.VITE_BACKEND_URL}/api/get-user-details`,
                     { headers: { Authorization: `Bearer ${token}` } }
                 );

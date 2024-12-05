@@ -6,8 +6,7 @@ import {
     Button,
     Spinner,
 } from "@nextui-org/react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import api from "../../../axiosConfig";
 
 export default function YourPublishedNotes() {
     const [notes, setNotes] = useState([]);
@@ -20,7 +19,7 @@ export default function YourPublishedNotes() {
             const token = localStorage.getItem("token");
 
             try {
-                const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/published-notes`, {
+                const response = await api.get(`${import.meta.env.VITE_BACKEND_URL}/api/published-notes`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
