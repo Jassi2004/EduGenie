@@ -6,6 +6,7 @@ import { TestTube, Notebook, Upload, ArrowDown } from "lucide-react";
 import Overview from "./DashBoardComponents/Overview";
 import PublishedNotesPage from "./PublishedNotesPage";
 import GenerationsExhaustedModal from "./DashBoardComponents/GenerationsExhaustedModal";
+import api from "../../axiosConfig";
 
 // const DashboardCard = ({
 //   title,
@@ -224,7 +225,7 @@ const Dashboard = () => {
     if (!token) return;
 
     try {
-      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}api/get-user-details`, {
+      const response = await api.get(`${import.meta.env.VITE_BACKEND_URL}api/get-user-details`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -243,7 +244,7 @@ const Dashboard = () => {
 
     if (token) {
       try {
-        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/validate-token`, {
+        const response = await api.get(`${import.meta.env.VITE_BACKEND_URL}/api/validate-token`, {
           headers: { Authorization: `Bearer ${token}` },
         });
 

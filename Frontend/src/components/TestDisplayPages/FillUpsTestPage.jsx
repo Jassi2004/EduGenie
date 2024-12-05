@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
 import {
   Card,
   CardHeader,
@@ -11,6 +10,7 @@ import {
   AccordionItem,
   Accordion
 } from "@nextui-org/react";
+import api from '../../../axiosConfig';
 
 const FillUpsTestPage = () => {
   const [quizData, setQuizData] = useState([]);
@@ -22,7 +22,7 @@ const FillUpsTestPage = () => {
   useEffect(() => {
     const fetchQuizData = async () => {
       try {
-        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/get-test-data`);
+        const response = await api.get(`${import.meta.env.VITE_BACKEND_URL}/api/get-test-data`);
         setQuizData(response.data.data);
         setIsLoading(false);
       } catch (error) {
@@ -52,7 +52,7 @@ const FillUpsTestPage = () => {
 
     // Save the test results to the backend
     try {
-      const response = await axios.patch(`${import.meta.env.VITE_BACKEND_URL}/api/save-test-results`, {
+      const response = await api.patch(`${import.meta.env.VITE_BACKEND_URL}/api/save-test-results`, {
         score: currentScore,
         timestamp: new Date().toISOString(),
         testType: 'fill-in-the-blanks', // Make sure this matches the test type used

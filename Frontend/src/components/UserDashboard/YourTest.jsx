@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
 import {
     Card,
     CardHeader,
@@ -9,6 +8,7 @@ import {
     Spinner
 } from '@nextui-org/react';
 import { useNavigate } from 'react-router-dom';
+import api from '../../../axiosConfig';
 
 function YourTest() {
     const [tests, setTests] = useState([]);
@@ -19,7 +19,7 @@ function YourTest() {
         const fetchTests = async () => {
             try {
                 const token = localStorage.getItem('token');
-                const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/get-user-tests`, {
+                const response = await api.get(`${import.meta.env.VITE_BACKEND_URL}/api/get-user-tests`, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
 

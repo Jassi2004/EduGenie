@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
 import { Card, CardHeader, CardBody, Spinner, Button } from '@nextui-org/react';
 import { useParams } from 'react-router-dom';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
+import api from '../../../axiosConfig';
 
 const TestDetails = () => {
   const { testId } = useParams(); // Get test ID from URL parameters
@@ -14,7 +14,7 @@ const TestDetails = () => {
     const fetchTestDetails = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/test-details/${testId}`, {
+        const response = await api.get(`${import.meta.env.VITE_BACKEND_URL}/api/test-details/${testId}`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         setTest(response.data.test);

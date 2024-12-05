@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 // import {Input} from "@nextui-org/react";
 import { EyeFilledIcon } from "../assets/EyeFilledIcon";
 import { EyeSlashFilledIcon } from "../assets/EyeSlashFilledIcon";
+import api from "../../axiosConfig";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -27,7 +28,7 @@ export default function LoginPage() {
     setError("");
 
     try {
-      const response = await axios.post(
+      const response = await api.post(
         `${import.meta.env.VITE_BACKEND_URL}/api/login`,
         { email, password },
         {

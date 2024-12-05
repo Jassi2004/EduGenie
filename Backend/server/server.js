@@ -14,32 +14,20 @@ app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
 // Serve static files from the "uploads" folder
 app.use('/uploads', express.static('uploads')); // This tells Express to serve files from the "uploads" directory
 
-// CORS Setup
 const corsOptions = {
     origin: [
-        'http://localhost:5173', // Development
-        'https://edu-genie-theta.vercel.app', // Production
+        'http://localhost:5173',
+        'https://edu-genie-theta.vercel.app',
         'https://edu-genie-jaskirat-singhs-projects-211a0a66.vercel.app',
         'https://edu-genie-git-main-jaskirat-singhs-projects-211a0a66.vercel.app',
     ],
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Allowed HTTP methods
-    credentials: true, // Allow credentials such as cookies
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true,
 };
 
 app.use(cors(corsOptions));
-app.options('*', cors(corsOptions)); // Explicitly handle preflight requests
-
-
-app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', 'https://edu-genie-theta.vercel.app');
-    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-    res.header('Access-Control-Allow-Credentials', 'true');
-    if (req.method === 'OPTIONS') {
-        return res.sendStatus(200);
-    }
-    next();
-});
+app.options('*', cors(corsOptions)); // Handle preflight requests
 
 
 

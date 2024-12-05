@@ -1,20 +1,20 @@
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import axios from 'axios';
 import {
   Button,
   Spinner,
 } from "@nextui-org/react";
 import QuestionCard from './QuestionCard'; // Extracted component for rendering a question
 import ScoreCard from './ScoreCard'; // Extracted component for score display
+import api from '../../../axiosConfig';
 
 const fetchQuizData = async () => {
-  const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/get-test-data`);
+  const response = await api.get(`${import.meta.env.VITE_BACKEND_URL}/api/get-test-data`);
   return response.data.data;
 };
 
 const updateTestResults = async (data) => {
-  const response = await axios.patch(`${import.meta.env.VITE_BACKEND_URL}/api/save-test-results`, data, {
+  const response = await api.patch(`${import.meta.env.VITE_BACKEND_URL}/api/save-test-results`, data, {
     headers: {
       Authorization: `Bearer ${localStorage.getItem('token')}`,
       'Content-Type': 'application/json',

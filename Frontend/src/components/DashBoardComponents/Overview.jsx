@@ -1,8 +1,8 @@
 import { Card } from '@nextui-org/react';
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
+import api from '../../../axiosConfig';
 
 function Overview() {
     const clipboardImg = "../../../public/icons/clipboard.png";
@@ -19,13 +19,13 @@ function Overview() {
         const fetchCounts = async () => {
             try {
                 const token = localStorage.getItem('token');
-                const testResponse = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/get-user-tests`, {
+                const testResponse = await api.get(`${import.meta.env.VITE_BACKEND_URL}/api/get-user-tests`, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
-                const publishedNotesResponse = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/published-notes`, {
+                const publishedNotesResponse = await api.get(`${import.meta.env.VITE_BACKEND_URL}/api/published-notes`, {
                     headers: { Authorization: `Bearer ${token}` },
                 });
-                const notesResponse = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/get-user-notes`, {
+                const notesResponse = await api.get(`${import.meta.env.VITE_BACKEND_URL}/api/get-user-notes`, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
 
@@ -48,7 +48,7 @@ function Overview() {
 
         if (token) {
             try {
-                const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/validate-token`, {
+                const response = await api.get(`${import.meta.env.VITE_BACKEND_URL}/api/validate-token`, {
                     headers: { Authorization: `Bearer ${token}` },
                 });
 
