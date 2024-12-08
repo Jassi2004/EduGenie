@@ -5,9 +5,9 @@ import { ArrowRight } from 'lucide-react';
 import api from '../../../axiosConfig';
 
 function Overview() {
-    const clipboardImg = "../../../public/icons/clipboard.png";
-    const boardImg = "../../../public/icons/board.png";
-    const usersImg = "../../../public/icons/users.png";
+    const clipboardImg = "../../../icons/clipboard.png";
+    const boardImg = "../../../icons/board.png";
+    const usersImg = "../../../icons/users.png";
 
     const [testCount, setTestCount] = useState(0);
     const [publishedNotesCount, setPublishedNotesCount] = useState(0);

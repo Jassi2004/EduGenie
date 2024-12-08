@@ -8,60 +8,6 @@ import PublishedNotesPage from "./PublishedNotesPage";
 import GenerationsExhaustedModal from "./DashBoardComponents/GenerationsExhaustedModal";
 import api from "../../axiosConfig";
 
-// const DashboardCard = ({
-//   title,
-//   description,
-//   icon: Icon,
-//   onClick,
-//   gradientFrom,
-//   gradientTo,
-// }) => (
-//   <div className="perspective-1000 transform-style-3d">
-//     <Card
-//       className={`
-//         relative overflow-hidden bg-white border-2 border-transparent
-//         rounded-3xl shadow-2xl transition-all duration-500 ease-in-out
-//         hover:scale-[1.03] hover:border-cyan-300
-
-//       `}
-//     >
-//       <div
-//         className={`absolute inset-0 rounded-3xl bg-gradient-to-r ${gradientFrom} ${gradientTo} opacity-0 transition-opacity duration-500 pointer-events-none hover:opacity-100`}
-//       />
-//       <CardHeader
-//         className="relative z-10 flex flex-col items-center justify-center text-center pt-8 pb-4"
-//       >
-//         <div className="bg-cyan-100 p-4 rounded-full mb-4">
-//           <Icon className="text-cyan-600 w-12 h-12" />
-//         </div>
-//         <h1
-//           className="
-//             text-4xl font-extrabold bg-clip-text text-transparent 
-//             bg-gradient-to-r from-cyan-500 to-blue-600
-//           "
-//         >
-//           {title}
-//         </h1>
-//       </CardHeader>
-//       <CardBody className="relative z-10 flex flex-col items-center justify-center space-y-4 px-6 pb-8">
-//         <p className="text-gray-600 text-center text-sm leading-relaxed">
-//           {description}
-//         </p>
-//         <Button
-//           onClick={onClick}
-//           className="
-//             group relative px-8 py-3 rounded-full 
-//             bg-gradient-to-r from-cyan-500 to-blue-600 
-//             text-white font-bold hover:from-cyan-600 hover:to-blue-700 
-//             transition-all duration-300 shadow-lg hover:shadow-2xl active:scale-95
-//           "
-//         >
-//           Get Started
-//         </Button>
-//       </CardBody>
-//     </Card>
-//   </div>
-// );
 
 
 const DashboardCard = ({

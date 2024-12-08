@@ -16,18 +16,18 @@ app.use('/uploads', express.static('uploads')); // This tells Express to serve f
 
 const corsOptions = {
     origin: [
-        'http://localhost:5173',
-        'https://edu-genie-theta.vercel.app',
-        'https://edu-genie-jaskirat-singhs-projects-211a0a66.vercel.app',
-        'https://edu-genie-git-main-jaskirat-singhs-projects-211a0a66.vercel.app',
+        'http://localhost:5173', // Local development
+        'https://edu-genie-theta.vercel.app', // Deployed frontend link 1
+        'https://edu-genie-jaskirat-singhs-projects-211a0a66.vercel.app', // Deployed frontend link 2
+        'https://edu-genie-git-main-jaskirat-singhs-projects-211a0a66.vercel.app', // Git branch URL
+        'https://edu-genie-seven.vercel.app', // Deployed frontend link 3
     ],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,
 };
-
-app.use(cors(corsOptions));
 app.options('*', cors(corsOptions)); // Handle preflight requests
+app.use(cors(corsOptions));
 
 
 
