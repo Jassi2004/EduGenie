@@ -28,7 +28,19 @@ const corsOptions = {
 };
 app.options('*', cors(corsOptions)); // Handle preflight requests
 app.use(cors(corsOptions));
-
+app.use((req, res, next) => {
+    if (req.method === 'OPTIONS') {
+        res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+        res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+        return res.sendStatus(204); // No Content
+    }
+    next();
+});
+app.use((req, res, next) => {
+    console.log(`${req.method} ${req.url}`);
+    console.log('Headers:', req.headers);
+    next();
+});
 
 
 const Razorpay = require('razorpay');
